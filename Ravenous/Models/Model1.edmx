@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ravenousDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mealCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="meals">
+          <Key>
+            <PropertyRef Name="restaurantId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="restaurantId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mealName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="mealPrice" Type="float" Nullable="false" />
+          <Property Name="category" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ownerRestaurant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="restaurantName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="restaurantPhone" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="city" Type="int" Nullable="false" />
+          <Property Name="location" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="isAvailableForOccasion" Type="bit" Nullable="false" />
+          <Property Name="isAvailableForKids" Type="bit" Nullable="false" />
+          <Property Name="startTime" Type="int" Nullable="false" />
+          <Property Name="endTime" Type="int" Nullable="false" />
+          <Property Name="isApproved" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tables">
+          <Key>
+            <PropertyRef Name="restaurantId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="restaurantId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tableNo" Type="int" Nullable="false" />
+          <Property Name="chairsNo" Type="int" Nullable="false" />
+          <Property Name="isReserved" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_meals_ToMealCategories">
+          <End Role="mealCategories" Type="Self.mealCategories" Multiplicity="1" />
+          <End Role="meals" Type="Self.meals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mealCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="meals">
+              <PropertyRef Name="category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meals_ToOwnerRestaurant">
+          <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="1" />
+          <End Role="meals" Type="Self.meals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ownerRestaurant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="meals">
+              <PropertyRef Name="restaurantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ownerRestaurant_ToCities">
+          <End Role="cities" Type="Self.cities" Multiplicity="1" />
+          <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ownerRestaurant">
+              <PropertyRef Name="city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tables_ToOwnerRestaurant">
+          <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="1" />
+          <End Role="Tables" Type="Self.Tables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ownerRestaurant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tables">
+              <PropertyRef Name="restaurantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ravenousDBModelStoreContainer">
+          <EntitySet Name="cities" EntityType="Self.cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mealCategories" EntityType="Self.mealCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="meals" EntityType="Self.meals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ownerRestaurant" EntityType="Self.ownerRestaurant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tables" EntityType="Self.Tables" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_meals_ToMealCategories" Association="Self.FK_meals_ToMealCategories">
+            <End Role="mealCategories" EntitySet="mealCategories" />
+            <End Role="meals" EntitySet="meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meals_ToOwnerRestaurant" Association="Self.FK_meals_ToOwnerRestaurant">
+            <End Role="ownerRestaurant" EntitySet="ownerRestaurant" />
+            <End Role="meals" EntitySet="meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ownerRestaurant_ToCities" Association="Self.FK_ownerRestaurant_ToCities">
+            <End Role="cities" EntitySet="cities" />
+            <End Role="ownerRestaurant" EntitySet="ownerRestaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tables_ToOwnerRestaurant" Association="Self.FK_Tables_ToOwnerRestaurant">
+            <End Role="ownerRestaurant" EntitySet="ownerRestaurant" />
+            <End Role="Tables" EntitySet="Tables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ravenousDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ownerRestaurants" Relationship="Self.FK_ownerRestaurant_ToCities" FromRole="cities" ToRole="ownerRestaurant" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userType" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mealCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="meals" Relationship="Self.FK_meals_ToMealCategories" FromRole="mealCategories" ToRole="meals" />
+        </EntityType>
+        <EntityType Name="meal">
+          <Key>
+            <PropertyRef Name="restaurantId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="restaurantId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="mealPrice" Type="Double" Nullable="false" />
+          <Property Name="category" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="mealCategory" Relationship="Self.FK_meals_ToMealCategories" FromRole="meals" ToRole="mealCategories" />
+          <NavigationProperty Name="ownerRestaurant" Relationship="Self.FK_meals_ToOwnerRestaurant" FromRole="meals" ToRole="ownerRestaurant" />
+        </EntityType>
+        <EntityType Name="ownerRestaurant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="restaurantName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="restaurantPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="Int32" Nullable="false" />
+          <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="isAvailableForOccasion" Type="Boolean" Nullable="false" />
+          <Property Name="isAvailableForKids" Type="Boolean" Nullable="false" />
+          <Property Name="startTime" Type="Int32" Nullable="false" />
+          <Property Name="endTime" Type="Int32" Nullable="false" />
+          <Property Name="isApproved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="city1" Relationship="Self.FK_ownerRestaurant_ToCities" FromRole="ownerRestaurant" ToRole="cities" />
+          <NavigationProperty Name="meals" Relationship="Self.FK_meals_ToOwnerRestaurant" FromRole="ownerRestaurant" ToRole="meals" />
+          <NavigationProperty Name="Tables" Relationship="Self.FK_Tables_ToOwnerRestaurant" FromRole="ownerRestaurant" ToRole="Tables" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="restaurantId" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="restaurantId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tableNo" Type="Int32" Nullable="false" />
+          <Property Name="chairsNo" Type="Int32" Nullable="false" />
+          <Property Name="isReserved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ownerRestaurant" Relationship="Self.FK_Tables_ToOwnerRestaurant" FromRole="Tables" ToRole="ownerRestaurant" />
+        </EntityType>
+        <Association Name="FK_ownerRestaurant_ToCities">
+          <End Role="cities" Type="Self.city" Multiplicity="1" />
+          <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ownerRestaurant">
+              <PropertyRef Name="city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meals_ToMealCategories">
+          <End Role="mealCategories" Type="Self.mealCategory" Multiplicity="1" />
+          <End Role="meals" Type="Self.meal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mealCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="meals">
+              <PropertyRef Name="category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meals_ToOwnerRestaurant">
+          <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="1" />
+          <End Role="meals" Type="Self.meal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ownerRestaurant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="meals">
+              <PropertyRef Name="restaurantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tables_ToOwnerRestaurant">
+          <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="1" />
+          <End Role="Tables" Type="Self.Table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ownerRestaurant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tables">
+              <PropertyRef Name="restaurantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ravenousDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cities" EntityType="Self.city" />
+          <EntitySet Name="logins" EntityType="Self.login" />
+          <EntitySet Name="mealCategories" EntityType="Self.mealCategory" />
+          <EntitySet Name="meals" EntityType="Self.meal" />
+          <EntitySet Name="ownerRestaurants" EntityType="Self.ownerRestaurant" />
+          <EntitySet Name="Tables" EntityType="Self.Table" />
+          <AssociationSet Name="FK_ownerRestaurant_ToCities" Association="Self.FK_ownerRestaurant_ToCities">
+            <End Role="cities" EntitySet="cities" />
+            <End Role="ownerRestaurant" EntitySet="ownerRestaurants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meals_ToMealCategories" Association="Self.FK_meals_ToMealCategories">
+            <End Role="mealCategories" EntitySet="mealCategories" />
+            <End Role="meals" EntitySet="meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meals_ToOwnerRestaurant" Association="Self.FK_meals_ToOwnerRestaurant">
+            <End Role="ownerRestaurant" EntitySet="ownerRestaurants" />
+            <End Role="meals" EntitySet="meals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tables_ToOwnerRestaurant" Association="Self.FK_Tables_ToOwnerRestaurant">
+            <End Role="ownerRestaurant" EntitySet="ownerRestaurants" />
+            <End Role="Tables" EntitySet="Tables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ravenousDBModelStoreContainer" CdmEntityContainer="ravenousDBEntities">
+          <EntitySetMapping Name="cities">
+            <EntityTypeMapping TypeName="ravenousDBModel.city">
+              <MappingFragment StoreEntitySet="cities">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="cityName" ColumnName="cityName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logins">
+            <EntityTypeMapping TypeName="ravenousDBModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mealCategories">
+            <EntityTypeMapping TypeName="ravenousDBModel.mealCategory">
+              <MappingFragment StoreEntitySet="mealCategories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="meals">
+            <EntityTypeMapping TypeName="ravenousDBModel.meal">
+              <MappingFragment StoreEntitySet="meals">
+                <ScalarProperty Name="restaurantId" ColumnName="restaurantId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="mealName" ColumnName="mealName" />
+                <ScalarProperty Name="mealPrice" ColumnName="mealPrice" />
+                <ScalarProperty Name="category" ColumnName="category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ownerRestaurants">
+            <EntityTypeMapping TypeName="ravenousDBModel.ownerRestaurant">
+              <MappingFragment StoreEntitySet="ownerRestaurant">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="restaurantName" ColumnName="restaurantName" />
+                <ScalarProperty Name="restaurantPhone" ColumnName="restaurantPhone" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="isAvailableForOccasion" ColumnName="isAvailableForOccasion" />
+                <ScalarProperty Name="isAvailableForKids" ColumnName="isAvailableForKids" />
+                <ScalarProperty Name="startTime" ColumnName="startTime" />
+                <ScalarProperty Name="endTime" ColumnName="endTime" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tables">
+            <EntityTypeMapping TypeName="ravenousDBModel.Table">
+              <MappingFragment StoreEntitySet="Tables">
+                <ScalarProperty Name="restaurantId" ColumnName="restaurantId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="tableNo" ColumnName="tableNo" />
+                <ScalarProperty Name="chairsNo" ColumnName="chairsNo" />
+                <ScalarProperty Name="isReserved" ColumnName="isReserved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,139 @@
+﻿@model Ravenous.Models.ownerRestaurant
+
+@{
+    ViewBag.Title = "انشاء مطعم جديد";
+}
+
+<h2>انشاء مطعم جديد</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal jumbotron" style="margin:50px;">
+        <h4>انشاء مطعم</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.restaurantName, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.restaurantName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.restaurantName, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.restaurantPhone, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.restaurantPhone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.restaurantPhone, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.city, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownList("city", null, "---الرجاء اختيار المدينة---", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.location, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.isAvailableForOccasion, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.isAvailableForOccasion)
+                @Html.ValidationMessageFor(model => model.isAvailableForOccasion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.isAvailableForKids, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.isAvailableForKids)
+                @Html.ValidationMessageFor(model => model.isAvailableForKids, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.startTime, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownList("startTime", null, "---الرجاء تحديد الوقت---" , htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.startTime, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.endTime, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownList("endTime", null, "---الرجاء تحديد الوقت---", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.endTime, "", new { @class = "text-danger" })
+        </div>
+
+
+    </div>
+
+       
+
+        <div class="form-group">
+            
+            <div class="col-md-offset-2 col-md-3">
+                <button type="submit" class="btn btn-primary">
+                    انشاء
+                    <i class="far fa-save"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+   @* @Html.ActionLink("Back to List", "Index")*@
+
+    <a href="/Home/Index" class="btn btn-warning">
+        خلف
+        <i class="far fa-hand-point-left"></i>
+    </a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

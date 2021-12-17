@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Ravenous.Models.ownerRestaurant>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.restaurantName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.restaurantPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isAvailableForOccasion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isAvailableForKids)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.startTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.endTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isApproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.city1.cityName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.restaurantName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.restaurantPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isAvailableForOccasion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isAvailableForKids)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.startTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.endTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isApproved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.city1.cityName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

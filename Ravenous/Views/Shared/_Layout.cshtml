@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link href="~/Content/footer.css" rel="stylesheet" />
+</head>
+<body dir="rtl">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header" style="float:right">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+
+                <a href="/Home/index">
+                    <img width="80" height="50" src="~/Content/images/favicon.ico" alt="الصورة غير موجودة" title="الرئيسية" />
+                    <span class="navbar-brand">الرئيسية</span>
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="float:right">
+
+                    <li class="navLinks">@Html.ActionLink("عنا", "About", "Home")</li>
+                    <li class="navLinks">@Html.ActionLink("التواصل", "Contact", "Home")</li>
+                    @*<li class="navLinks">@Html.ActionLink("إنشاء مطعم", "CreateRestaurant", "Home")</li>*@
+                    @*<li class="navLinks">@Html.ActionLink("OwnerRestaurants", "Index", "ownerRestaurants")</li>*@
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid body-content">
+        @RenderBody()
+
+        <!-- FOOTER START -->
+        <div class="footer">
+            <div class="contain">
+                <div class="col">
+                    <h1>الشركة</h1>
+                    <ul>
+                        <li>عنا</li>
+                        <li>الخدمات</li>
+                        <li>اجتماعي</li>
+                        <li>لمسات الختام</li>
+                    </ul>
+                </div>
+               
+                
+                <div class="col">
+                    <h1>الدعم</h1>
+                    <ul>
+                        <li>
+                            <img src="~/Content/images/phone.png" width="28" style="width: 28px;" />
+                            <a href="https://web.whatsapp.com/" target="_blank">042-270-280</a>
+                        </li>
+                        <li>
+                            <img src="~/Content/images/whatsapp.png" width="28" style="width: 28px;" />
+                            <a href="https://web.whatsapp.com/" target="_blank">970-599-471396+</a>
+                        </li>
+                        <li>
+                            <img src="~/Content/images/telegram.png" width="28" style="width: 28px;" />
+                            <a href="https://web.telegram.org/k/" target="_blank">970-599-471396+</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col social">
+                    <h1>اجتماعي</h1>
+                    <ul>
+                        <li><img src="~/Content/images/facebook.png" width="32" style="width: 32px;"></li>
+                        <li><img src="~/Content/images/instagram.png" width="32" style="width: 32px;"></li>
+                        <li><img src="~/Content/images/twitter.png" width="32" style="width: 32px;"></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- END OF FOOTER -->
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
