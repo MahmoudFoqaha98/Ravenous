@@ -53,6 +53,7 @@
           <Property Name="isAvailableForKids" Type="bit" Nullable="false" />
           <Property Name="startTime" Type="int" Nullable="false" />
           <Property Name="endTime" Type="int" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="isApproved" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Tables">
@@ -195,6 +196,7 @@
           <Property Name="isAvailableForKids" Type="Boolean" Nullable="false" />
           <Property Name="startTime" Type="Int32" Nullable="false" />
           <Property Name="endTime" Type="Int32" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="isApproved" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="city1" Relationship="Self.FK_ownerRestaurant_ToCities" FromRole="ownerRestaurant" ToRole="cities" />
           <NavigationProperty Name="meals" Relationship="Self.FK_meals_ToOwnerRestaurant" FromRole="ownerRestaurant" ToRole="meals" />
@@ -340,6 +342,7 @@
                 <ScalarProperty Name="isAvailableForKids" ColumnName="isAvailableForKids" />
                 <ScalarProperty Name="startTime" ColumnName="startTime" />
                 <ScalarProperty Name="endTime" ColumnName="endTime" />
+                <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="isApproved" ColumnName="isApproved" />
               </MappingFragment>
             </EntityTypeMapping>

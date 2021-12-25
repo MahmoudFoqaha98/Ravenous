@@ -31,6 +31,7 @@ namespace Ravenous.Models
         public bool isAvailableForKids { get; set; }
         public int startTime { get; set; }
         public int endTime { get; set; }
+        public string image { get; set; }
         public bool isApproved { get; set; }
     
         public virtual city city1 { get; set; }

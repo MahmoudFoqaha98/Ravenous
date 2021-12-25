@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Ravenous.Models.ownerRestaurant>
+@{
+    ViewBag.Title = "مـوافـقـة الـمـسـؤول";
+}
+
+<style>
+    .myDiv {
+        height: 200px;
+    }
+</style>
+<div class="row">
+    @for (int i = 0; i < 10; i++)
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    @*<img src="@Url.Content(item.image)" alt="..." class="myImg">*@
+                    <div class="myDiv">
+                        <img src="@Url.Content(item.image)" alt="..." style="width:100%;height:100%;">
+                    </div>
+                    <div class="caption">
+                        <h3>@item.restaurantName</h3>
+                        <p><img src="~/Content/images/email.png" height="20" /> @item.email</p>
+                        <p><img src="~/Content/images/smartphone.png" height="20" /> @item.restaurantPhone</p>
+                        <p><img src="~/Content/images/clock.png" height="20" /> <span>أوقـات الـدوام&nbsp; &nbsp; &nbsp;</span> @item.startTime &nbsp; &nbsp; &nbsp; @item.endTime</p>
+                        @using (Html.BeginForm("AdminApprove", "Home", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input name="Id" hidden value="@item.Id" />
+                            if (item.isApproved == false)
+                            {
+                                <button type="submit" name="approve" value="approve" class="btn btn-primary">
+                                    <span>مـوافـقـة</span>
+                                    <img src="~/Content/images/validation.png" height="25" />
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" name="disApprove" value="disApprove" class="btn btn-danger">
+                                    <span>تـعـطـيـل</span>
+                                    <img src="~/Content/images/reject.png" height="25" />
+                                </button>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -29,11 +29,15 @@ textarea {
 }
 .control-label {
     /*border: 2px dashed red;*/
+    color: black;
 }
 .col-md-3 {
     /*border: 2px dashed blue;*/
 }
 .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    float: right;
+}
+.col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
     float: right;
 }
 .form-group {
@@ -43,7 +47,23 @@ textarea {
 .jumbotron {
     width: 50%;
     opacity: 0.9;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
+
+@media only screen and (max-width: 800px) {
+    .jumbotron {
+        width: 100%;
+    }
+    .container-fluid {
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+    .navbar-collapse.in {
+        overflow-y: unset;
+    }
+}
+
 
 .navLinks {
     font-size:large;
@@ -59,4 +79,14 @@ a {
 .container-fluid{
     margin-right:20px;
     margin-left:20px;
+}
+.navbar-collapse.in {
+     overflow-y: unset; 
+
+}
+.navbar-toggle{
+    margin-left: 15px;
+}
+.navbar-brand{
+    float:none;
 }

@@ -115,6 +115,15 @@ namespace Ravenous.Models
 
 
 
+       
+        [Display(Name = "صورة المطعم")]
+        public string image { get; set; }
+
+
+
+
+
+
         [Required]
         [Display(Name = "معتمد")]
         public bool isApproved { get; set; }

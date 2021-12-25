@@ -229,12 +229,18 @@
     <Content Include="Content\footer.css" />
     <Content Include="Content\images\background1.jpg" />
     <Content Include="Content\images\background2.jpg" />
+    <Content Include="Content\images\clock.png" />
+    <Content Include="Content\images\email.png" />
     <Content Include="Content\images\facebook.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\instagram.png" />
+    <Content Include="Content\images\Orgada.jpg" />
     <Content Include="Content\images\phone.png" />
+    <Content Include="Content\images\reject.png" />
+    <Content Include="Content\images\smartphone.png" />
     <Content Include="Content\images\telegram.png" />
     <Content Include="Content\images\twitter.png" />
+    <Content Include="Content\images\validation.png" />
     <Content Include="Content\images\whatsapp.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -304,12 +310,14 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\CreateRestaurant.cshtml" />
+    <Content Include="Views\Home\AllRestaurants.cshtml" />
     <Content Include="Views\ownerRestaurants\Create.cshtml" />
     <Content Include="Views\ownerRestaurants\Delete.cshtml" />
     <Content Include="Views\ownerRestaurants\Details.cshtml" />
     <Content Include="Views\ownerRestaurants\Edit.cshtml" />
     <Content Include="Views\ownerRestaurants\Index.cshtml" />
-    <Content Include="Views\Home\CreateRestaurant.cshtml" />
+    <Content Include="Views\Home\AdminApprove.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

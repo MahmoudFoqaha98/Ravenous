@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e72e60ed722b4dd88cf19c54c8ec3830" Name="Diagram1">
+      <Diagram DiagramId="f75e83e853a04a3081cd02d36a16a0a2" Name="Diagram1">
         <EntityTypeShape EntityType="ravenousDBModel.city" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ravenousDBModel.login" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ravenousDBModel.mealCategory" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ravenousDBModel.meal" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ravenousDBModel.ownerRestaurant" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ravenousDBModel.ownerRestaurant" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ravenousDBModel.Table" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
         <AssociationConnector Association="ravenousDBModel.FK_ownerRestaurant_ToCities" ManuallyRouted="false" />
         <AssociationConnector Association="ravenousDBModel.FK_meals_ToMealCategories" ManuallyRouted="false" />

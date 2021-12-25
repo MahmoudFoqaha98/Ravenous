@@ -100,10 +100,23 @@
             font-size: 13px;
         }
 }
+@media only screen and (max-width: 700px) {
+    .footer .col {
+        width: 50%;
+    }
+
+        .footer .col h1 {
+            font-size: 14px;
+        }
+
+        .footer .col ul li {
+            font-size: 13px;
+        }
+}
 
 @media only screen and (max-width: 500px) {
     .footer .col {
-        width: 50%;
+        width: 100%;
     }
 
         .footer .col h1 {
