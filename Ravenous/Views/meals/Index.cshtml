@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Ravenous.Models.meal>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>جـمـيـع الـوجـبـات</h2>
+
+
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create","meals")">
+        <span>إنـشـاء وجـبـة</span>
+        <i class="fas fa-plus"></i>
+    </a>
+</p>
+
+<style>
+    th {
+        text-align: right;
+    }
+</style>
+<table class="table table-responsive " style="text-align:right;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.mealName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mealPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.available)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mealCategory.type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ownerRestaurant.email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.mealName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mealPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.available)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mealCategory.type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ownerRestaurant.email)
+            </td>
+            <td>
+                <a class="btn btn-success" href="@Url.Action("Edit","meals",new {  restaurantId=item.restaurantId,Id=item.Id  })">
+                    <span>تـعـديـل</span>
+                    <i class="fas fa-edit"></i>
+                </a>
+                |
+                <a class="btn btn-warning" href="@Url.Action("Details","meals",new {  restaurantId=item.restaurantId,Id=item.Id  })">
+                    <span>تـفـاصـيـل</span>
+                    <i class="fas fa-info-circle"></i>
+                </a>
+                |
+                <a class="btn btn-danger" href="@Url.Action("Delete","meals",new { restaurantId=item.restaurantId,Id=item.Id  })">
+                    <span>حـذف</span>
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

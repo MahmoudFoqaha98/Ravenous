@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Ravenous.Models.meal>
+@{
+    ViewBag.Title = "قـائـمـة الـوجـبـات";
+}
+
+<style>
+    th {
+        text-align: right;
+    }
+</style>
+
+
+<h2>جـمـيـع الـوجـبـات</h2>
+
+
+<table class="table" style="text-align:right;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.mealName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mealPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mealCategory.type)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.mealName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mealPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mealCategory.type)
+            </td>
+        </tr>
+    }
+
+</table>
+

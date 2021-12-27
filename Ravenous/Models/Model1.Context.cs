@@ -27,6 +27,7 @@ namespace Ravenous.Models
     
         public virtual DbSet<city> cities { get; set; }
         public virtual DbSet<login> logins { get; set; }
+        public virtual DbSet<meal_images> meal_images { get; set; }
         public virtual DbSet<mealCategory> mealCategories { get; set; }
         public virtual DbSet<meal> meals { get; set; }
         public virtual DbSet<ownerRestaurant> ownerRestaurants { get; set; }

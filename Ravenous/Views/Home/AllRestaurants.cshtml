@@ -15,9 +15,8 @@
     {
         foreach (var item in Model)
         {
-            <a href="@Url.Action("Edit", "ownerRestaurants", new { id = item.Id })" class="col-sm-6 col-md-3">
+            <a href="@Url.Action("UserMealsMenu", "Home", new { restaurantId = item.Id })" class="col-sm-6 col-md-3">
                 <div class="thumbnail">
-                    @*<img src="@Url.Content(item.image)" alt="..." class="myImg">*@
                     <div class="myDiv">
                         <img src="@Url.Content(item.image)" alt="..." style="width:100%;height:100%;">
                     </div>

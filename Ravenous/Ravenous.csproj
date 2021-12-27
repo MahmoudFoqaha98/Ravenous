@@ -173,6 +173,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\mealsController.cs" />
     <Compile Include="Controllers\ownerRestaurantsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -181,7 +182,9 @@
     <Compile Include="Models\city.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\customizeMealCategory.cs" />
     <Compile Include="Models\CustomizeOwnerRestaurant.cs" />
+    <Compile Include="Models\CutomizeMeal.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\login.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -191,6 +194,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\mealCategory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\meal_images.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -227,6 +233,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\footer.css" />
+    <Content Include="Content\images\alhethnawi.jpg" />
     <Content Include="Content\images\background1.jpg" />
     <Content Include="Content\images\background2.jpg" />
     <Content Include="Content\images\clock.png" />
@@ -234,9 +241,13 @@
     <Content Include="Content\images\facebook.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\instagram.png" />
+    <Content Include="Content\images\meal_menu.png" />
     <Content Include="Content\images\Orgada.jpg" />
+    <Content Include="Content\images\pencil.png" />
     <Content Include="Content\images\phone.png" />
     <Content Include="Content\images\reject.png" />
+    <Content Include="Content\images\remove_image.png" />
+    <Content Include="Content\images\restaurant.png" />
     <Content Include="Content\images\smartphone.png" />
     <Content Include="Content\images\telegram.png" />
     <Content Include="Content\images\twitter.png" />
@@ -318,6 +329,16 @@
     <Content Include="Views\ownerRestaurants\Edit.cshtml" />
     <Content Include="Views\ownerRestaurants\Index.cshtml" />
     <Content Include="Views\Home\AdminApprove.cshtml" />
+    <Content Include="Views\meals\Create.cshtml" />
+    <Content Include="Views\meals\Delete.cshtml" />
+    <Content Include="Views\meals\Details.cshtml" />
+    <Content Include="Views\meals\Edit.cshtml" />
+    <Content Include="Views\meals\Index.cshtml" />
+    <Content Include="Views\Home\CreateMeal.cshtml" />
+    <Content Include="Views\Home\UserMealsMenu.cshtml" />
+    <Content Include="Views\Home\OwnerRestaurantMealsMenu.cshtml" />
+    <Content Include="Views\Home\EditMeal.cshtml" />
+    <Content Include="Views\Home\RestaurantPage.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

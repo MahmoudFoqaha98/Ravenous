@@ -1,0 +1,163 @@
+﻿@model Ravenous.Models.meal
+@{
+    ViewBag.Title = "إضـافـة وجـبـة";
+}
+
+
+<style>
+    .img-thumb {
+        max-height: 75px;
+        border: 2px solid none;
+        border-radius: 3px;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .img-thumb-wrapper {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+    }
+
+    .remove {
+        display: block;
+        background: #444;
+        border: 1px solid none;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .remove:hover {
+            background: white;
+            color: black;
+        }
+</style>
+
+@using (Html.BeginForm("CreateMeal", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal jumbotron">
+        <h4 style="color:black;font-weight:600;">إضـافـة وجـبـة</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.restaurantId, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                <label class = "form-control">@ViewBag.restaurantId</label>
+               @* @Html.DropDownList("restaurantId", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.restaurantId, "", new { @class = "text-danger" })
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.mealName, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.mealName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.mealName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.mealPrice, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.mealPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.mealPrice, "", new { @class = "text-danger" })
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.category, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownList("category", null,"--- الـرجـاء اخـتـيـار الـنـوع ---", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.available, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.available)
+                    @Html.ValidationMessageFor(model => model.available, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        @*imgFiles*@
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.meal_images, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                <div class="container my-5">
+                    <div class="row">
+                        <div class="col">
+                            <input type="file" id="files" name="imgFiles" multiple="multiple" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.meal_images, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-md-offset-2 col-md-3">
+                <button type="submit" class="btn btn-primary">
+                    <span>إضـافـة</span> 
+                    <i class="far fa-save"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+
+    <a href="/Home/OwnerRestaurantMealsMenu" class="btn btn-warning">
+        <span>خــلــف</span> 
+        <i class="far fa-hand-point-left"></i>
+    </a>
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#files").on("change", function (e) {
+                var files = e.target.files,
+                    filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i];
+                    var fileReader = new FileReader();
+                    fileReader.onload = function (e) {
+                        var file = e.target;
+                        $(
+                            '<div class="img-thumb-wrapper card shadow">' +
+                            '<img class="img-thumb" src="' +
+                            e.target.result +
+                            '" title="' +
+                            file.name +
+                            '"/>' +
+                            '<br/><span class="remove">hhh</span>' +
+                            "</div>"
+                        ).insertAfter("#files");
+                        $(".remove").click(function () {
+                            $(this).parent(".img-thumb-wrapper").remove();
+                        });
+                    };
+                    fileReader.readAsDataURL(f);
+                }
+                console.log(files);
+            });
+        } else {
+            alert("Your browser doesn't support to File API");
+        }
+    });
+</script>

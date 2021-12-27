@@ -59,7 +59,7 @@ namespace Ravenous.Controllers
             if (ModelState.IsValid)
             {
                 ownerRestaurant.isApproved = false;
-
+                
                 string path = "";
                 if(imgFile.FileName.Length > 0)
                 {
@@ -146,6 +146,161 @@ namespace Ravenous.Controllers
             }
             ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
             return RedirectToAction("AdminApprove");
+        }
+
+
+
+
+
+
+
+        // GET: meals
+        public ActionResult UserMealsMenu(int? restaurantId)
+        {
+            if (restaurantId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var meals = db.meals.Include(m => m.mealCategory)
+                                .Include(m => m.ownerRestaurant)
+                                .Where(a => a.restaurantId == restaurantId && a.available == true)
+                                .OrderBy(a => a.mealCategory.type);
+            return View(meals.ToList());
+        }
+
+
+
+
+
+
+        // GET: Restaurant Page
+        public ActionResult RestaurantPage()
+        {
+            Session["restaurantId"] = 3;
+            return View();
+        }
+
+
+
+
+
+
+        // GET: meals
+        public ActionResult OwnerRestaurantMealsMenu()
+        {
+            int restaurantId = int.Parse(Session["restaurantId"].ToString());
+            
+
+            var meals = db.meals.Include(m => m.mealCategory)
+                                .Include(m => m.ownerRestaurant)
+                                .Where(a => a.restaurantId == restaurantId).OrderBy(a=>a.mealCategory.type);
+
+            //int x = 5;
+            return View(meals.ToList());
+        }
+
+
+
+
+
+        // GET: meals/CreateMeal
+        public ActionResult CreateMeal()
+        {
+            ViewBag.category = new SelectList(db.mealCategories, "Id", "type");
+
+            int restaurantId = int.Parse(Session["restaurantId"].ToString());
+            ViewBag.restaurantId = db.ownerRestaurants.Find(restaurantId).restaurantName;
+            return View();
+        }
+
+
+
+        // POST: meals/CreateMeal
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateMeal([Bind(Include = "mealName,mealPrice,category,available")] meal meal, HttpPostedFileBase []imgFiles)
+        {
+            if (ModelState.IsValid)
+            {
+                meal.restaurantId = int.Parse(Session["restaurantId"].ToString());
+
+                db.meals.Add(meal);
+
+                db.SaveChanges();
+
+                int mealId = db.meals.Where(a => a.restaurantId == meal.restaurantId
+                                                && a.mealName == meal.mealName).FirstOrDefault().Id;
+
+                foreach (var imgFile in imgFiles)
+                {
+                    meal_images image = new meal_images();
+                    image.restaurantId = meal.restaurantId;
+                    image.mealId = mealId;
+
+                    string path = "";
+                    if (imgFile.FileName.Length > 0)
+                    {
+                        path = "~/Content/images/" + Path.GetFileName(imgFile.FileName);
+                        imgFile.SaveAs(Server.MapPath(path));
+                    }
+
+                    image.mealImage = path;
+                    meal.meal_images.Add(image);
+                }
+
+                db.SaveChanges();
+
+                return RedirectToAction("OwnerRestaurantMealsMenu");
+            }
+
+            ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);
+            int restaurantId = int.Parse(Session["restaurantId"].ToString());
+            ViewBag.restaurantId = db.ownerRestaurants.Find(restaurantId).restaurantName;
+            return View(meal);
+        }
+
+
+
+
+
+
+
+        // GET: meals/EditMeal/ restaurantId , Id
+        public ActionResult EditMeal(int? restaurantId, int? Id)
+        {
+            if (restaurantId == null || Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            meal meal = db.meals.Find(restaurantId, Id);
+            if (meal == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);
+            ViewBag.restaurantId = new SelectList(db.ownerRestaurants, "Id", "restaurantName", meal.restaurantId);
+            return View(meal);
+        }
+
+
+
+
+
+        // POST: meals/EditMeal/ restaurantId , Id
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMeal([Bind(Include = "restaurantId,Id,mealName,mealPrice,category,available")] meal meal)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(meal).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("OwnerRestaurantMealsMenu");
+            }
+            ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);
+            ViewBag.restaurantId = new SelectList(db.ownerRestaurants, "Id", "restaurantName", meal.restaurantId);
+            return View(meal);
         }
 
 

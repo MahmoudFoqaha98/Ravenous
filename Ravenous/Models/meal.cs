@@ -14,12 +14,21 @@ namespace Ravenous.Models
     
     public partial class meal
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public meal()
+        {
+            this.meal_images = new HashSet<meal_images>();
+        }
+    
         public int restaurantId { get; set; }
         public int Id { get; set; }
         public string mealName { get; set; }
         public double mealPrice { get; set; }
         public int category { get; set; }
+        public bool available { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<meal_images> meal_images { get; set; }
         public virtual mealCategory mealCategory { get; set; }
         public virtual ownerRestaurant ownerRestaurant { get; set; }
     }

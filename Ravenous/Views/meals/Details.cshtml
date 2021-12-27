@@ -1,0 +1,58 @@
+﻿@model Ravenous.Models.meal
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>meal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.mealName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mealName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mealPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mealPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.available)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.available)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mealCategory.type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mealCategory.type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ownerRestaurant.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ownerRestaurant.email)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
