@@ -231,7 +231,7 @@ namespace Ravenous.Controllers
 
                 int mealId = db.meals.Where(a => a.restaurantId == meal.restaurantId
                                                 && a.mealName == meal.mealName).FirstOrDefault().Id;
-
+                
                 foreach (var imgFile in imgFiles)
                 {
                     meal_images image = new meal_images();
@@ -302,8 +302,6 @@ namespace Ravenous.Controllers
             ViewBag.restaurantId = new SelectList(db.ownerRestaurants, "Id", "restaurantName", meal.restaurantId);
             return View(meal);
         }
-
-
 
 
 
