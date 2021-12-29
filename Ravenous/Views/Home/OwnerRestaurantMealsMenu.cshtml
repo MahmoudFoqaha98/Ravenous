@@ -5,7 +5,10 @@
 
 <style>
     th {
-        text-align: right;
+        text-align: center;
+    }
+    .myDiv {
+        height: 200px;
     }
 </style>
 
@@ -19,48 +22,113 @@
     </a>
 </p>
 
-<table class="table" style="text-align:right;background-color:whitesmoke;">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.mealName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.mealPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.mealCategory.type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.available)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
+
+
+<div class="row">
+
+        @foreach (var item in Model)
+        {
+            <a href="@Url.Action("UserMealsMenu", "Home", new { restaurantId = item.Id })" class="col-sm-6 col-md-2">
+                <div class="thumbnail">
+                    <div class="myDiv">
+                        <img src="@Url.Content(item.meal_images.First().mealImage)" alt="..." style="width:100%;height:100%;">
+                    </div>
+                    <div class="caption">
+                        <h3>@item.mealName</h3>
+                        <p><img src="~/Content/images/email.png" height="20" /> @item.mealPrice</p>
+                        <p><img src="~/Content/images/smartphone.png" height="20" /> @item.mealCategory.type</p>
+                        <p><img src="~/Content/images/email.png" height="20" /> @item.available</p>
+                        
+                    </div>
+                </div>
+            </a>
+        }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="jumbotron" style="width:100%;">
+
+
+
+    <table class="table" style="text-align:center;">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.mealName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.mealPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.mealCategory.type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.available)
-            </td>
-            <td>
-                <a class="btn btn-success" href="@Url.Action("EditMeal","Home",new {  restaurantId=item.restaurantId,Id=item.Id  })">
-                    <span>تـعـديـل</span>
-                    <i class="fas fa-edit"></i>
-                </a>
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.mealName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mealPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mealCategory.type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.meal_images)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.available)
+            </th>
+            <th>الـحـركـات</th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.mealName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.mealPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.mealCategory.type)
+                </td>
+                <td>
+
+                    @foreach (var image in item.meal_images)
+                    {
+                        <img src="@Url.Content(image.mealImage)" alt="..." height="50">
+                    }
+
+                </td>
+                <td>
+                    @if (item.available == true)
+                    {
+                        <h4><span class="label label-info">مـتـاح</span></h4>
+                    }
+                    else
+                    {
+                        <h4><span class="label label-danger">غـيـر مـتـاح</span></h4>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-success" href="@Url.Action("EditMeal","Home",new {  restaurantId=item.restaurantId,Id=item.Id  })">
+                        <span>تـعـديـل</span>
+                        <i class="fas fa-edit"></i>
+
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
 
 <div>
     <a href="/Home/RestaurantPage" class="btn btn-warning">
@@ -68,4 +136,5 @@
         <i class="far fa-hand-point-left"></i>
     </a>
 </div>
+
 

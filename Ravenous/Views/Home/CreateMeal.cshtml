@@ -5,6 +5,7 @@
 
 
 <style>
+
     .img-thumb {
         max-height: 75px;
         border: 2px solid none;
@@ -33,6 +34,9 @@
         }
 </style>
 
+<link href="~/Content/CheckBox.css" rel="stylesheet" />
+        
+
 @using (Html.BeginForm("CreateMeal", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -41,16 +45,16 @@
         <h4 style="color:black;font-weight:600;">إضـافـة وجـبـة</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        <!--<div class="form-group">
             @Html.LabelFor(model => model.restaurantId, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <label class = "form-control">@ViewBag.restaurantId</label>
-               @* @Html.DropDownList("restaurantId", null, htmlAttributes: new { @class = "form-control" })*@
-                @Html.ValidationMessageFor(model => model.restaurantId, "", new { @class = "text-danger" })
+                <label class="form-control">@ViewBag.restaurantId</label>-->
+                @* @Html.DropDownList("restaurantId", null, htmlAttributes: new { @class = "form-control" })*@
+                <!--@Html.ValidationMessageFor(model => model.restaurantId, "", new { @class = "text-danger" })
             </div>
 
 
-        </div>
+        </div>-->
 
         <div class="form-group">
             @Html.LabelFor(model => model.mealName, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -73,7 +77,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.category, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.DropDownList("category", null,"--- الـرجـاء اخـتـيـار الـنـوع ---", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("category", null, "--- الـرجـاء اخـتـيـار الـنـوع ---", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -82,13 +86,18 @@
             @Html.LabelFor(model => model.available, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.available)
+
+                    <input value="@{if (Model != null) { @Model.available } }" name="available" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
+                    <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb5"></label>
+                    @*@Html.EditorFor(model => model.available, new { htmlAttributes = new {@class = "col-md-9 tgl tgl-flip", @id = "cb5" } })*@
+
+
                     @Html.ValidationMessageFor(model => model.available, "", new { @class = "text-danger" })
                 </div>
+                
             </div>
         </div>
-        @*imgFiles*@
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.meal_images, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
@@ -96,6 +105,7 @@
                     <div class="row">
                         <div class="col">
                             <input type="file" id="files" name="imgFiles" multiple="multiple" class="form-control" />
+                            
                         </div>
                     </div>
                 </div>
@@ -107,7 +117,7 @@
 
             <div class="col-md-offset-2 col-md-3">
                 <button type="submit" class="btn btn-primary">
-                    <span>إضـافـة</span> 
+                    <span>إضـافـة</span>
                     <i class="far fa-save"></i>
                 </button>
             </div>
@@ -118,7 +128,7 @@
 <div>
 
     <a href="/Home/OwnerRestaurantMealsMenu" class="btn btn-warning">
-        <span>خــلــف</span> 
+        <span>خــلــف</span>
         <i class="far fa-hand-point-left"></i>
     </a>
 </div>
@@ -145,11 +155,12 @@
                             '" title="' +
                             file.name +
                             '"/>' +
-                            '<br/><span class="remove">hhh</span>' +
+                            '<br/><span class="remove">حـذف</span>' +
                             "</div>"
                         ).insertAfter("#files");
                         $(".remove").click(function () {
                             $(this).parent(".img-thumb-wrapper").remove();
+                            f.val(null);
                         });
                     };
                     fileReader.readAsDataURL(f);
@@ -160,4 +171,33 @@
             alert("Your browser doesn't support to File API");
         }
     });
+
+</script>
+
+
+
+
+<script>
+    function myFunction(id)
+    {
+         //Get the checkbox
+        var checkBox = document.getElementById(id);
+
+        // If the checkbox is checked
+        if (checkBox.checked == true)
+            checkBox.value = true;
+        else
+            checkBox.value = false;
+    }
+
+
+
+    var checkBox2 = document.getElementById("cb5");
+
+    if (checkBox2.value == "True" || checkBox2.value == "true")
+        $("#cb5").prop("checked", true);
+    else
+        $("#cb5").prop("checked", false);
+
+
 </script>

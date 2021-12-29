@@ -74,6 +74,7 @@ a:hover, a:active, a:visited {
 }
 a {
     color: #999999;
+    text-align: right;
 }
 
 .container-fluid{

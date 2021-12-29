@@ -232,7 +232,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CheckBox.css" />
     <Content Include="Content\footer.css" />
+    <Content Include="Content\images\about.png" />
+    <Content Include="Content\images\add-restaurant.png" />
     <Content Include="Content\images\alhethnawi.jpg" />
     <Content Include="Content\images\background1.jpg" />
     <Content Include="Content\images\background2.jpg" />
@@ -241,18 +244,33 @@
     <Content Include="Content\images\facebook.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\instagram.png" />
+    <Content Include="Content\images\kfc.jpg" />
+    <Content Include="Content\images\login.png" />
+    <Content Include="Content\images\logout.png" />
     <Content Include="Content\images\meal_menu.png" />
     <Content Include="Content\images\Orgada.jpg" />
     <Content Include="Content\images\pencil.png" />
     <Content Include="Content\images\phone.png" />
+    <Content Include="Content\images\popeyes.jpg" />
+    <Content Include="Content\images\profile.png" />
     <Content Include="Content\images\reject.png" />
     <Content Include="Content\images\remove_image.png" />
     <Content Include="Content\images\restaurant.png" />
+    <Content Include="Content\images\restaurant_nav.png" />
     <Content Include="Content\images\smartphone.png" />
     <Content Include="Content\images\telegram.png" />
     <Content Include="Content\images\twitter.png" />
     <Content Include="Content\images\validation.png" />
     <Content Include="Content\images\whatsapp.png" />
+    <Content Include="Content\images\zinger.jpg" />
+    <Content Include="Content\images\zinger2.jpg" />
+    <Content Include="Content\images\المفتول-الفلسطيني-1.jpg" />
+    <Content Include="Content\images\بوظة_شامية.jpg" />
+    <Content Include="Content\images\تين_و_زيتون.jpg" />
+    <Content Include="Content\images\قصر_علي_بابا.jpg" />
+    <Content Include="Content\images\منسف-فلسطيني.jpg" />
+    <Content Include="Content\images\منسف_فلسطيني_2.jpg" />
+    <Content Include="Content\images\منسف_فلسطيني_3.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -339,6 +357,7 @@
     <Content Include="Views\Home\OwnerRestaurantMealsMenu.cshtml" />
     <Content Include="Views\Home\EditMeal.cshtml" />
     <Content Include="Views\Home\RestaurantPage.cshtml" />
+    <Content Include="Views\Home\Logout.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

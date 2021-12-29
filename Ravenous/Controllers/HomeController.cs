@@ -33,6 +33,13 @@ namespace Ravenous.Controllers
 
             return View();
         }
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+
+            return RedirectToAction("Index");
+        }
+
 
 
 
@@ -177,7 +184,9 @@ namespace Ravenous.Controllers
         // GET: Restaurant Page
         public ActionResult RestaurantPage()
         {
-            Session["restaurantId"] = 3;
+            Session["restaurantId"] = 3; 
+            Session["restaurantName"] = "أورجادا برجر";
+            Session["restaurantImage"] = "~/Content/images/Orgada.jpg";
             return View();
         }
 
@@ -190,7 +199,6 @@ namespace Ravenous.Controllers
         public ActionResult OwnerRestaurantMealsMenu()
         {
             int restaurantId = int.Parse(Session["restaurantId"].ToString());
-            
 
             var meals = db.meals.Include(m => m.mealCategory)
                                 .Include(m => m.ownerRestaurant)
@@ -211,6 +219,7 @@ namespace Ravenous.Controllers
 
             int restaurantId = int.Parse(Session["restaurantId"].ToString());
             ViewBag.restaurantId = db.ownerRestaurants.Find(restaurantId).restaurantName;
+           
             return View();
         }
 
@@ -221,8 +230,20 @@ namespace Ravenous.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateMeal([Bind(Include = "mealName,mealPrice,category,available")] meal meal, HttpPostedFileBase []imgFiles)
         {
+            int restaurantId;
+
             if (ModelState.IsValid)
             {
+                if ( imgFiles[0] == null)
+                {
+                    ModelState.AddModelError("meal_images", "* الـرجـاء اخـتـيـار صـورة واحـدة عـلـى الأقـل");
+                    ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);
+                    restaurantId = int.Parse(Session["restaurantId"].ToString());
+                    ViewBag.restaurantId = db.ownerRestaurants.Find(restaurantId).restaurantName;
+                   
+                    return View(meal);
+                }
+
                 meal.restaurantId = int.Parse(Session["restaurantId"].ToString());
 
                 db.meals.Add(meal);
@@ -231,7 +252,7 @@ namespace Ravenous.Controllers
 
                 int mealId = db.meals.Where(a => a.restaurantId == meal.restaurantId
                                                 && a.mealName == meal.mealName).FirstOrDefault().Id;
-
+                
                 foreach (var imgFile in imgFiles)
                 {
                     meal_images image = new meal_images();
@@ -255,8 +276,9 @@ namespace Ravenous.Controllers
             }
 
             ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);
-            int restaurantId = int.Parse(Session["restaurantId"].ToString());
+            restaurantId = int.Parse(Session["restaurantId"].ToString());
             ViewBag.restaurantId = db.ownerRestaurants.Find(restaurantId).restaurantName;
+            
             return View(meal);
         }
 
@@ -302,8 +324,6 @@ namespace Ravenous.Controllers
             ViewBag.restaurantId = new SelectList(db.ownerRestaurants, "Id", "restaurantName", meal.restaurantId);
             return View(meal);
         }
-
-
 
 
 
