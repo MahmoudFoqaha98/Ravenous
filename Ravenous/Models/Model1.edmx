@@ -21,16 +21,6 @@
           <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="userType" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="meal_images">
-          <Key>
-            <PropertyRef Name="restaurantId" />
-            <PropertyRef Name="mealId" />
-            <PropertyRef Name="mealImage" />
-          </Key>
-          <Property Name="restaurantId" Type="int" Nullable="false" />
-          <Property Name="mealId" Type="int" Nullable="false" />
-          <Property Name="mealImage" Type="nvarchar" MaxLength="100" Nullable="false" />
-        </EntityType>
         <EntityType Name="mealCategories">
           <Key>
             <PropertyRef Name="Id" />
@@ -48,6 +38,7 @@
           <Property Name="mealName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="mealPrice" Type="float" Nullable="false" />
           <Property Name="category" Type="int" Nullable="false" />
+          <Property Name="mealImage" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="available" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ownerRestaurant">
@@ -78,20 +69,6 @@
           <Property Name="chairsNo" Type="int" Nullable="false" />
           <Property Name="isReserved" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK_meal_images_ToOwnerRestaurant">
-          <End Role="meals" Type="Self.meals" Multiplicity="1" />
-          <End Role="meal_images" Type="Self.meal_images" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="meals">
-              <PropertyRef Name="restaurantId" />
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="meal_images">
-              <PropertyRef Name="restaurantId" />
-              <PropertyRef Name="mealId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_meals_ToMealCategories">
           <End Role="mealCategories" Type="Self.mealCategories" Multiplicity="1" />
           <End Role="meals" Type="Self.meals" Multiplicity="*" />
@@ -143,15 +120,10 @@
         <EntityContainer Name="ravenousDBModelStoreContainer">
           <EntitySet Name="cities" EntityType="Self.cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="meal_images" EntityType="Self.meal_images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mealCategories" EntityType="Self.mealCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="meals" EntityType="Self.meals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ownerRestaurant" EntityType="Self.ownerRestaurant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tables" EntityType="Self.Tables" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_meal_images_ToOwnerRestaurant" Association="Self.FK_meal_images_ToOwnerRestaurant">
-            <End Role="meals" EntitySet="meals" />
-            <End Role="meal_images" EntitySet="meal_images" />
-          </AssociationSet>
           <AssociationSet Name="FK_meals_ToMealCategories" Association="Self.FK_meals_ToMealCategories">
             <End Role="mealCategories" EntitySet="mealCategories" />
             <End Role="meals" EntitySet="meals" />
@@ -191,17 +163,6 @@
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="userType" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="meal_images">
-          <Key>
-            <PropertyRef Name="restaurantId" />
-            <PropertyRef Name="mealId" />
-            <PropertyRef Name="mealImage" />
-          </Key>
-          <Property Name="restaurantId" Type="Int32" Nullable="false" />
-          <Property Name="mealId" Type="Int32" Nullable="false" />
-          <Property Name="mealImage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="meal" Relationship="Self.FK_meal_images_ToOwnerRestaurant" FromRole="meal_images" ToRole="meals" />
-        </EntityType>
         <EntityType Name="mealCategory">
           <Key>
             <PropertyRef Name="Id" />
@@ -220,8 +181,8 @@
           <Property Name="mealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="mealPrice" Type="Double" Nullable="false" />
           <Property Name="category" Type="Int32" Nullable="false" />
+          <Property Name="mealImage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="available" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="meal_images" Relationship="Self.FK_meal_images_ToOwnerRestaurant" FromRole="meals" ToRole="meal_images" />
           <NavigationProperty Name="mealCategory" Relationship="Self.FK_meals_ToMealCategories" FromRole="meals" ToRole="mealCategories" />
           <NavigationProperty Name="ownerRestaurant" Relationship="Self.FK_meals_ToOwnerRestaurant" FromRole="meals" ToRole="ownerRestaurant" />
         </EntityType>
@@ -269,20 +230,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_meal_images_ToOwnerRestaurant">
-          <End Role="meals" Type="Self.meal" Multiplicity="1" />
-          <End Role="meal_images" Type="Self.meal_images" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="meals">
-              <PropertyRef Name="restaurantId" />
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="meal_images">
-              <PropertyRef Name="restaurantId" />
-              <PropertyRef Name="mealId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_meals_ToMealCategories">
           <End Role="mealCategories" Type="Self.mealCategory" Multiplicity="1" />
           <End Role="meals" Type="Self.meal" Multiplicity="*" />
@@ -322,7 +269,6 @@
         <EntityContainer Name="ravenousDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cities" EntityType="Self.city" />
           <EntitySet Name="logins" EntityType="Self.login" />
-          <EntitySet Name="meal_images" EntityType="Self.meal_images" />
           <EntitySet Name="mealCategories" EntityType="Self.mealCategory" />
           <EntitySet Name="meals" EntityType="Self.meal" />
           <EntitySet Name="ownerRestaurants" EntityType="Self.ownerRestaurant" />
@@ -330,10 +276,6 @@
           <AssociationSet Name="FK_ownerRestaurant_ToCities" Association="Self.FK_ownerRestaurant_ToCities">
             <End Role="cities" EntitySet="cities" />
             <End Role="ownerRestaurant" EntitySet="ownerRestaurants" />
-          </AssociationSet>
-          <AssociationSet Name="FK_meal_images_ToOwnerRestaurant" Association="Self.FK_meal_images_ToOwnerRestaurant">
-            <End Role="meals" EntitySet="meals" />
-            <End Role="meal_images" EntitySet="meal_images" />
           </AssociationSet>
           <AssociationSet Name="FK_meals_ToMealCategories" Association="Self.FK_meals_ToMealCategories">
             <End Role="mealCategories" EntitySet="mealCategories" />
@@ -372,15 +314,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="meal_images">
-            <EntityTypeMapping TypeName="ravenousDBModel.meal_images">
-              <MappingFragment StoreEntitySet="meal_images">
-                <ScalarProperty Name="restaurantId" ColumnName="restaurantId" />
-                <ScalarProperty Name="mealId" ColumnName="mealId" />
-                <ScalarProperty Name="mealImage" ColumnName="mealImage" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="mealCategories">
             <EntityTypeMapping TypeName="ravenousDBModel.mealCategory">
               <MappingFragment StoreEntitySet="mealCategories">
@@ -397,6 +330,7 @@
                 <ScalarProperty Name="mealName" ColumnName="mealName" />
                 <ScalarProperty Name="mealPrice" ColumnName="mealPrice" />
                 <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="mealImage" ColumnName="mealImage" />
                 <ScalarProperty Name="available" ColumnName="available" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -4,35 +4,7 @@
 }
 
 
-<style>
-
-    .img-thumb {
-        max-height: 75px;
-        border: 2px solid none;
-        border-radius: 3px;
-        padding: 1px;
-        cursor: pointer;
-    }
-
-    .img-thumb-wrapper {
-        display: inline-block;
-        margin: 10px 10px 0 0;
-    }
-
-    .remove {
-        display: block;
-        background: #444;
-        border: 1px solid none;
-        color: white;
-        text-align: center;
-        cursor: pointer;
-    }
-
-        .remove:hover {
-            background: white;
-            color: black;
-        }
-</style>
+<link href="~/Content/ImagePreview.css" rel="stylesheet" />
 
 <link href="~/Content/CheckBox.css" rel="stylesheet" />
         
@@ -87,7 +59,8 @@
             <div class="col-md-9">
                 <div class="checkbox">
 
-                    <input value="@{if (Model != null) { @Model.available } }" name="available" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
+                    <input value="@{if (Model != null)
+                        { @Model.available } }" name="available" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
                     <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb5"></label>
                     @*@Html.EditorFor(model => model.available, new { htmlAttributes = new {@class = "col-md-9 tgl tgl-flip", @id = "cb5" } })*@
 
@@ -97,19 +70,26 @@
                 
             </div>
         </div>
-
+        
         <div class="form-group">
-            @Html.LabelFor(model => model.meal_images, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.mealImage, htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-top:80px;" })
             <div class="col-md-9">
-                <div class="container my-5">
-                    <div class="row">
-                        <div class="col">
-                            <input type="file" id="files" name="imgFiles" multiple="multiple" class="form-control" />
-                            
+                @* @Html.EditorFor(model => model.mealImage, new { htmlAttributes = new { @class = "form-control" } })*@
+
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        <input  type='file' id="imageUpload" name="imgFile" accept=".png, .jpg, .jpeg" />
+                        <label for="imageUpload">
+                            <img src="~/Content/images/pencil.png" height="20" style="margin:6px;" />
+                        </label>
+                    </div>
+
+                    <div class="avatar-preview">
+                        <div id="imagePreview" style="background-image: url(https://cdn-icons-png.flaticon.com/512/2533/2533563.png); ">
                         </div>
                     </div>
                 </div>
-                @Html.ValidationMessageFor(model => model.meal_images, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.mealImage, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -137,44 +117,6 @@
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 
 
-<script>
-    $(document).ready(function () {
-        if (window.File && window.FileList && window.FileReader) {
-            $("#files").on("change", function (e) {
-                var files = e.target.files,
-                    filesLength = files.length;
-                for (var i = 0; i < filesLength; i++) {
-                    var f = files[i];
-                    var fileReader = new FileReader();
-                    fileReader.onload = function (e) {
-                        var file = e.target;
-                        $(
-                            '<div class="img-thumb-wrapper card shadow">' +
-                            '<img class="img-thumb" src="' +
-                            e.target.result +
-                            '" title="' +
-                            file.name +
-                            '"/>' +
-                            '<br/><span class="remove">حـذف</span>' +
-                            "</div>"
-                        ).insertAfter("#files");
-                        $(".remove").click(function () {
-                            $(this).parent(".img-thumb-wrapper").remove();
-                            f.val(null);
-                        });
-                    };
-                    fileReader.readAsDataURL(f);
-                }
-                console.log(files);
-            });
-        } else {
-            alert("Your browser doesn't support to File API");
-        }
-    });
-
-</script>
-
-
 
 
 <script>
@@ -199,5 +141,29 @@
     else
         $("#cb5").prop("checked", false);
 
+
+</script>
+
+
+
+
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imagePreview").css("background-image", "url(" + e.target.result + ")");
+                $("#imagePreview").hide();
+                $("#imagePreview").fadeIn(650);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    $("#imageUpload").change(function () {
+        readURL(this);
+    });
 
 </script>

@@ -13,7 +13,7 @@ namespace Ravenous.Controllers
 {
     public class HomeController : Controller
     {
-        private ravenousDBEntities db = new ravenousDBEntities();
+        private static ravenousDBEntities db = new ravenousDBEntities();
         public ActionResult Index()
         {
             ViewBag.Name = "Mai";
@@ -171,8 +171,7 @@ namespace Ravenous.Controllers
 
             var meals = db.meals.Include(m => m.mealCategory)
                                 .Include(m => m.ownerRestaurant)
-                                .Where(a => a.restaurantId == restaurantId && a.available == true)
-                                .OrderBy(a => a.mealCategory.type);
+                                .Where(a => a.restaurantId == restaurantId && a.available == true);
             return View(meals.ToList());
         }
 
@@ -228,15 +227,15 @@ namespace Ravenous.Controllers
         // POST: meals/CreateMeal
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMeal([Bind(Include = "mealName,mealPrice,category,available")] meal meal, HttpPostedFileBase []imgFiles)
+        public ActionResult CreateMeal([Bind(Include = "mealName,mealPrice,category,available")] meal meal, HttpPostedFileBase imgFile)
         {
             int restaurantId;
 
             if (ModelState.IsValid)
             {
-                if ( imgFiles[0] == null)
+                if ( imgFile == null)
                 {
-                    ModelState.AddModelError("meal_images", "* الـرجـاء اخـتـيـار صـورة واحـدة عـلـى الأقـل");
+                    ModelState.AddModelError("mealImage", "* صـورة الـوجـبـة مـطـلـوبـة");
                     ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);
                     restaurantId = int.Parse(Session["restaurantId"].ToString());
                     ViewBag.restaurantId = db.ownerRestaurants.Find(restaurantId).restaurantName;
@@ -246,29 +245,16 @@ namespace Ravenous.Controllers
 
                 meal.restaurantId = int.Parse(Session["restaurantId"].ToString());
 
-                db.meals.Add(meal);
-
-                db.SaveChanges();
-
-                int mealId = db.meals.Where(a => a.restaurantId == meal.restaurantId
-                                                && a.mealName == meal.mealName).FirstOrDefault().Id;
-                
-                foreach (var imgFile in imgFiles)
+                string path = "";
+                if (imgFile.FileName.Length > 0)
                 {
-                    meal_images image = new meal_images();
-                    image.restaurantId = meal.restaurantId;
-                    image.mealId = mealId;
-
-                    string path = "";
-                    if (imgFile.FileName.Length > 0)
-                    {
-                        path = "~/Content/images/" + Path.GetFileName(imgFile.FileName);
-                        imgFile.SaveAs(Server.MapPath(path));
-                    }
-
-                    image.mealImage = path;
-                    meal.meal_images.Add(image);
+                    path = "~/Content/images/" + Path.GetFileName(imgFile.FileName);
+                    imgFile.SaveAs(Server.MapPath(path));
                 }
+
+                meal.mealImage = path;
+
+                db.meals.Add(meal);
 
                 db.SaveChanges();
 
@@ -302,6 +288,12 @@ namespace Ravenous.Controllers
             }
             ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);
             ViewBag.restaurantId = new SelectList(db.ownerRestaurants, "Id", "restaurantName", meal.restaurantId);
+
+            Session["restaurantId"] = meal.restaurantId;
+            Session["Id"] = meal.Id;
+            Session["mealImage"] = meal.mealImage;
+
+
             return View(meal);
         }
 
@@ -312,12 +304,35 @@ namespace Ravenous.Controllers
         // POST: meals/EditMeal/ restaurantId , Id
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMeal([Bind(Include = "restaurantId,Id,mealName,mealPrice,category,available")] meal meal)
+        public ActionResult EditMeal([Bind(Include = "mealName,mealPrice,category,available")] meal meal, HttpPostedFileBase imgFile)
         {
+            meal.restaurantId = int.Parse( Session["restaurantId"].ToString());
+            meal.Id = int.Parse(Session["Id"].ToString());
+            if(imgFile == null)
+                meal.mealImage = Session["mealImage"].ToString();
+            else
+            {
+                string path = "";
+                if (imgFile.FileName.Length > 0)
+                {
+                    path = "~/Content/images/" + Path.GetFileName(imgFile.FileName);
+                    imgFile.SaveAs(Server.MapPath(path));
+                }
+
+                meal.mealImage = path;
+            }
+
             if (ModelState.IsValid)
             {
-                db.Entry(meal).State = EntityState.Modified;
-                db.SaveChanges();
+                try
+                {
+                    db.Entry(meal).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
                 return RedirectToAction("OwnerRestaurantMealsMenu");
             }
             ViewBag.category = new SelectList(db.mealCategories, "Id", "type", meal.category);

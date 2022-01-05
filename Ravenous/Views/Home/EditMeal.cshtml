@@ -6,54 +6,79 @@
 
 <h2>تـعـديـل الـوجـبـة</h2>
 
-@using (Html.BeginForm())
+<link href="~/Content/CheckBox.css" rel="stylesheet" />
+
+@using (Html.BeginForm("EditMeal", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div class="form-horizontal jumbotron">
         <h4>meal</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.restaurantId)
-
-        @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.mealName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.mealName, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.mealName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.mealName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.mealPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.mealPrice, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.mealPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.mealPrice, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.category, "category", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.category, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.DropDownList("category", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.available, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.available, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.available)
+
+                    <input value="@{if (Model != null)
+                        { @Model.available } }" name="available" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
+                    <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb5"></label>
+
                     @Html.ValidationMessageFor(model => model.available, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            @Html.LabelFor(model => model.mealImage, htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-top:80px;" })
+            <div class="col-md-9">
+                @* @Html.EditorFor(model => model.mealImage, new { htmlAttributes = new { @class = "form-control" } })*@
+
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        <input  type='file' id="imageUpload" name="imgFile" accept=".png, .jpg, .jpeg" />
+                        <label for="imageUpload">
+                            <img src="~/Content/images/pencil.png" height="20" style="margin:6px;" />
+                        </label>
+                    </div>
+
+                    <div class="avatar-preview">
+                        <div id="imagePreview" style="background-image: url(@Url.Content(@Model.mealImage)); ">
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.mealImage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-9">
                 <button type="submit" class="btn btn-primary">
                     <span>حـفـظ</span>
                     <i class="far fa-save"></i>
@@ -70,5 +95,64 @@
         <i class="far fa-hand-point-left"></i>
     </a>
 </div>
+
+
+<link href="~/Content/ImagePreview.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    function myFunction(id) {
+        //Get the checkbox
+        var checkBox = document.getElementById(id);
+
+        // If the checkbox is checked
+        if (checkBox.checked == true)
+            checkBox.value = true;
+        else
+            checkBox.value = false;
+    }
+
+
+
+    var checkBox2 = document.getElementById("cb5");
+
+    if (checkBox2.value == "True" || checkBox2.value == "true")
+        $("#cb5").prop("checked", true);
+    else
+        $("#cb5").prop("checked", false);
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imagePreview").css("background-image", "url(" + e.target.result + ")");
+                $("#imagePreview").hide();
+                $("#imagePreview").fadeIn(650);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    $("#imageUpload").change(function () {
+        readURL(this);
+    });
+
+</script>
 
 

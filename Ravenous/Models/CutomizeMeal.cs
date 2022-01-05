@@ -62,6 +62,20 @@ namespace Ravenous.Models
 
 
 
+
+
+
+       
+        [Display(Name ="صـورة الـوجـبـة")]
+        public string mealImage { get; set; }
+
+
+
+
+
+
+
+
         [Display(Name = "مـتـاحـة")]
         public bool available { get; set; }
 
@@ -69,14 +83,7 @@ namespace Ravenous.Models
 
 
 
-        [Display(Name = "صـور الـوجـبـة")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<meal_images> meal_images { get; set; }
-
-
         public virtual mealCategory mealCategory { get; set; }
-
-
         public virtual ownerRestaurant ownerRestaurant { get; set; }
     }
 }
