@@ -13,7 +13,7 @@ namespace Ravenous.Controllers
 {
     public class HomeController : Controller
     {
-        private static ravenousDBEntities db = new ravenousDBEntities();
+        private  ravenousDBEntities db = new ravenousDBEntities();
         public ActionResult Index()
         {
             ViewBag.Name = "Mai";
@@ -48,12 +48,6 @@ namespace Ravenous.Controllers
         public ActionResult CreateRestaurant()
         {
             ViewBag.city = new SelectList(db.cities, "Id", "cityName");
-
-            SelectListItem[] items = creatList();
-            SelectListItem[] items2 = creatList();
-
-            ViewBag.startTime = items;
-            ViewBag.endTime = items2;
             return View();
         }
 
@@ -61,10 +55,19 @@ namespace Ravenous.Controllers
         // POST: Create Restaurant
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateRestaurant([Bind(Include = "Id,email,restaurantName,restaurantPhone,city,location,isAvailableForOccasion,isAvailableForKids,startTime,endTime,image,isApproved")] ownerRestaurant ownerRestaurant, HttpPostedFileBase imgFile)
+        public ActionResult CreateRestaurant([Bind(Include = "Id,email,restaurantName,restaurantPhone,city,location,isAvailableForOccasion,isAvailableForKids,startTime,endTime,isApproved")] ownerRestaurant ownerRestaurant, HttpPostedFileBase imgFile)
         {
             if (ModelState.IsValid)
             {
+                if (imgFile == null)
+                {
+                    ModelState.AddModelError("image", "* صـورة الـمـطـعـم مطلوبة");
+                    
+                    ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
+
+                    return View(ownerRestaurant);
+                }
+
                 ownerRestaurant.isApproved = false;
                 
                 string path = "";
@@ -84,28 +87,8 @@ namespace Ravenous.Controllers
             ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
 
 
-            SelectListItem[] items = creatList();
-            SelectListItem[] items2 = creatList();
-            items[ownerRestaurant.startTime].Selected = true;
-            items2[ownerRestaurant.endTime -1].Selected = true;
-            ViewBag.startTime = items;
-            ViewBag.endTime = items2;
 
             return View(ownerRestaurant);
-        }
-        public SelectListItem [] creatList()
-        {
-            SelectListItem[] items = new SelectListItem[24];
-            for (int i = 0, j = 1; i < items.Length; i++)
-            {
-                items[i] = new SelectListItem();
-                if (i < 12)
-                    items[i].Text = (i + 1) + "  صباحا";
-                else
-                    items[i].Text = (j++) + "  مساءا";
-                items[i].Value = (i + 1) + "";
-            }
-            return items;
         }
         // GET: All Restaurants
         public ActionResult AllRestaurants()
@@ -183,11 +166,85 @@ namespace Ravenous.Controllers
         // GET: Restaurant Page
         public ActionResult RestaurantPage()
         {
-            Session["restaurantId"] = 3; 
-            Session["restaurantName"] = "أورجادا برجر";
-            Session["restaurantImage"] = "~/Content/images/Orgada.jpg";
+            Session["restaurantId"] = 3;
+            Session["email"] = db.ownerRestaurants.Find(3).email;
+            Session["restaurantName"] = db.ownerRestaurants.Find(3).restaurantName;
+            Session["restaurantImage"] = db.ownerRestaurants.Find(3).image;
             return View();
         }
+
+
+        // GET: Restaurant Details
+        public ActionResult RestaurantDetails()
+        {
+            int restaurantId = int.Parse(Session["restaurantId"].ToString());
+            ownerRestaurant restaurant = db.ownerRestaurants.Find(restaurantId);
+
+            if (restaurant == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(restaurant);
+        }
+
+
+
+        // GET: Edit Restaurant ? restaurantId
+        public ActionResult EditRestaurant()
+        {
+            int id = int.Parse(Session["restaurantId"].ToString());
+
+            ownerRestaurant ownerRestaurant = db.ownerRestaurants.Find(id);
+            if (ownerRestaurant == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
+            Session["image"] = ownerRestaurant.image;
+            return View(ownerRestaurant);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRestaurant([Bind(Include = "email,restaurantName,restaurantPhone,city,location,isAvailableForOccasion,isAvailableForKids,startTime,endTime")] ownerRestaurant ownerRestaurant, HttpPostedFileBase imgFile)
+        {
+            if (imgFile == null)
+                ownerRestaurant.image = Session["image"].ToString();
+            else
+            {
+                string path = "";
+                if (imgFile.FileName.Length > 0)
+                {
+                    path = "~/Content/images/" + Path.GetFileName(imgFile.FileName);
+                    imgFile.SaveAs(Server.MapPath(path));
+                }
+
+                ownerRestaurant.image = path;
+            }
+
+            ownerRestaurant.Id = int.Parse(Session["restaurantId"].ToString());
+            ownerRestaurant.email = Session["email"].ToString();
+            ownerRestaurant.isApproved = true;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(ownerRestaurant).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("RestaurantDetails");
+            }
+            ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
+            return View(ownerRestaurant);
+        }
+
+
+
+
+
+
+
 
 
 

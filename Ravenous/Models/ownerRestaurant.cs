@@ -29,8 +29,8 @@ namespace Ravenous.Models
         public string location { get; set; }
         public bool isAvailableForOccasion { get; set; }
         public bool isAvailableForKids { get; set; }
-        public int startTime { get; set; }
-        public int endTime { get; set; }
+        public string startTime { get; set; }
+        public string endTime { get; set; }
         public string image { get; set; }
         public bool isApproved { get; set; }
     

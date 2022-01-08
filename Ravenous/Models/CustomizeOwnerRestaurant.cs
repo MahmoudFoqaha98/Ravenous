@@ -98,7 +98,7 @@ namespace Ravenous.Models
 
         [Required(ErrorMessage = "* ساعة بدء العمل طلوبة")]
         [Display(Name = "ساعة بدء العمل")]
-        public int startTime { get; set; }
+        public string startTime { get; set; }
 
 
 
@@ -108,14 +108,13 @@ namespace Ravenous.Models
 
         [Required(ErrorMessage = "* ساعة انتهاء العمل مطلوبة")]
         [Display(Name = "ساعة انتهاء العمل")]
-        public int endTime { get; set; }
+        public string endTime { get; set; }
 
 
 
 
 
 
-       
         [Display(Name = "صورة المطعم")]
         public string image { get; set; }
 

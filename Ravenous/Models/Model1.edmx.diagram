@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e9171527ea674cf2b64c47d2e0bc313d" Name="Diagram1">
-        <EntityTypeShape EntityType="ravenousDBModel.city" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ravenousDBModel.login" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ravenousDBModel.mealCategory" Width="1.5" PointX="7.25" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ravenousDBModel.meal" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ravenousDBModel.ownerRestaurant" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="ravenousDBModel.Table" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+      <Diagram DiagramId="12f193f404d34aa0b14474f4f7c11050" Name="Diagram1">
+        <EntityTypeShape EntityType="ravenousDBModel.city" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ravenousDBModel.login" Width="1.5" PointX="6.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ravenousDBModel.mealCategory" Width="1.5" PointX="6.875" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ravenousDBModel.meal" Width="1.5" PointX="5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ravenousDBModel.ownerRestaurant" Width="1.5" PointX="3" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ravenousDBModel.Table" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="ravenousDBModel.FK_ownerRestaurant_ToCities" ManuallyRouted="false" />
         <AssociationConnector Association="ravenousDBModel.FK_meals_ToMealCategories" ManuallyRouted="false" />
         <AssociationConnector Association="ravenousDBModel.FK_meals_ToOwnerRestaurant" ManuallyRouted="false" />

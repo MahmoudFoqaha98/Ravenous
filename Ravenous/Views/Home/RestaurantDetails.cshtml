@@ -1,0 +1,121 @@
+﻿@model Ravenous.Models.ownerRestaurant
+
+@{
+    ViewBag.Title = "الـمـلـف الـشـخـصـي";
+}
+
+<div class="form-horizontal jumbotron" style="width: 80%;">
+    <h4 style="color:black;font-weight:600;">الـمـلـف الـشـخـصـي</h4>
+    <hr />
+    <div class="row">
+
+        <div class="col-md-7" style="float:left;">
+            <div class="form-group">
+                <img src="@Url.Content(Model.image)" style="border-radius: 4%; max-width: 100%;" />
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="form-group">
+                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.restaurantName, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.restaurantName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.restaurantPhone, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.restaurantPhone)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.city, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.city1.cityName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.location, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.location)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.isAvailableForOccasion, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @if (Model.isAvailableForOccasion == true)
+                    {
+                        <h4 style="margin-top:0px;"><span class="label label-info">مـتـاح</span></h4>
+                    }
+                    else
+                    {
+                        <h4 style="margin-top:0px;"><span class="label label-danger">غـيـر مـتـاح</span></h4>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.isAvailableForKids, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+           
+                    @if (Model.isAvailableForKids == true)
+                    {
+                        <h4 style="margin-top:0px;"><span class="label label-info">مـتـاح</span></h4>
+                    }
+                    else
+                    {
+                        <h4 style="margin-top:0px;"><span class="label label-danger">غـيـر مـتـاح</span></h4>
+                    }
+                 
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.startTime, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.startTime)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.endTime, htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-7">
+                    @Html.DisplayFor(model => model.endTime)
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+
+                <div class="col-md-offset-2 col-md-5">
+                    <a href="@Url.Action("EditRestaurant","Home")" class="btn btn-success">
+                        <span>تـعـديـل</span>
+                        <i class="far fa-edit"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    <a href="/Home/RestaurantPage" class="btn btn-warning">
+        <span>خــلــف</span>
+        <i class="far fa-hand-point-left"></i>
+    </a>
+</div>
+
+

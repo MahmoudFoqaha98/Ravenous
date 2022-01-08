@@ -7,8 +7,20 @@
     th {
         text-align: center;
     }
+
     .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
         vertical-align: unset;
+    }
+
+
+    /* Styles go here */
+    tr:nth-child(even) {
+        background-color: white;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #337ab7;
+        color: white;
     }
 
 </style>
@@ -16,20 +28,27 @@
 
 <h2>جـمـيـع الـوجـبـات</h2>
 
-<p>
-    <a class="btn btn-primary" href="@Url.Action("CreateMeal","Home")">
-        <span>إضـافـة وجـبـة</span>
-        <i class="fas fa-plus"></i>
-    </a>
-</p>
+
+
+
 
 
 <div class="jumbotron" style="width:100%;">
+    <p>
+        <a class="btn btn-primary" href="@Url.Action("CreateMeal", "Home")">
+            <span>إضـافـة وجـبـة</span>
+            <i class="fas fa-plus"></i>
+        </a>
+    </p>
 
+    <p>
+        <input type="text" class="form-control" style="max-width: 50%;" id="myInput" onkeyup="myFunction()" placeholder="ابـحـث هـنـا...">
+    </p>
 
-
-    <table class="table" style="text-align:center;">
+    @{ int i = 1;}
+    <table id="myTable" class="table" style="text-align:center;">
         <tr style="background-color: #131837; color:white;">
+            <th>#</th>
             <th style="padding-top:15px;padding-bottom:15px;">
                 @Html.DisplayNameFor(model => model.mealName)
             </th>
@@ -50,6 +69,7 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td><span>@(i++)</span></td>
                 <td>
                     @Html.DisplayFor(modelItem => item.mealName)
                 </td>
@@ -65,11 +85,11 @@
                 <td>
                     @if (item.available == true)
                     {
-                        <h4><span class="label label-info">مـتـاح</span></h4>
+                        <h4 style="margin-top:0px;"><span class="label label-info">مـتـاح</span></h4>
                     }
                     else
                     {
-                        <h4><span class="label label-danger">غـيـر مـتـاح</span></h4>
+                        <h4 style="margin-top:0px;"><span class="label label-danger">غـيـر مـتـاح</span></h4>
                     }
                 </td>
                 <td>
@@ -91,3 +111,35 @@
         <i class="far fa-hand-point-left"></i>
     </a>
 </div>
+
+<script>
+    function myFunction()
+    {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 1; i < tr.length; i++)
+        {
+            td = tr[i].getElementsByTagName("td");
+            var res = 0;
+            for (k = 1; k < td.length-2; k++)
+            {
+                txtValue = td[k].textContent || td[k].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1)
+                {
+                    res = 1;
+                }
+            }
+            if (res == 1)
+                tr[i].style.display = "";
+            else
+                tr[i].style.display = "none";
+
+        }
+	}
+</script>

@@ -7,6 +7,7 @@
 <h2>تـعـديـل الـوجـبـة</h2>
 
 <link href="~/Content/CheckBox.css" rel="stylesheet" />
+<link href="~/Content/ImagePreview.css" rel="stylesheet" />
 
 @using (Html.BeginForm("EditMeal", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -46,8 +47,7 @@
             <div class="col-md-9">
                 <div class="checkbox">
 
-                    <input value="@{if (Model != null)
-                        { @Model.available } }" name="available" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
+                    <input value="@{if (Model != null){ @Model.available } }" name="available" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
                     <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb5"></label>
 
                     @Html.ValidationMessageFor(model => model.available, "", new { @class = "text-danger" })
@@ -97,7 +97,7 @@
 </div>
 
 
-<link href="~/Content/ImagePreview.css" rel="stylesheet" />
+
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script>

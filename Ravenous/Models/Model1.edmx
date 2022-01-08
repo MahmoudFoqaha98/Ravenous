@@ -53,8 +53,8 @@
           <Property Name="location" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="isAvailableForOccasion" Type="bit" Nullable="false" />
           <Property Name="isAvailableForKids" Type="bit" Nullable="false" />
-          <Property Name="startTime" Type="int" Nullable="false" />
-          <Property Name="endTime" Type="int" Nullable="false" />
+          <Property Name="startTime" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="endTime" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="image" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="isApproved" Type="bit" Nullable="false" />
         </EntityType>
@@ -198,8 +198,8 @@
           <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="isAvailableForOccasion" Type="Boolean" Nullable="false" />
           <Property Name="isAvailableForKids" Type="Boolean" Nullable="false" />
-          <Property Name="startTime" Type="Int32" Nullable="false" />
-          <Property Name="endTime" Type="Int32" Nullable="false" />
+          <Property Name="startTime" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="endTime" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="isApproved" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="city1" Relationship="Self.FK_ownerRestaurant_ToCities" FromRole="ownerRestaurant" ToRole="cities" />

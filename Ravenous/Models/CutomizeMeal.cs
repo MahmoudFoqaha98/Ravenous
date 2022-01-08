@@ -47,6 +47,7 @@ namespace Ravenous.Models
         [Required(ErrorMessage = "* سـعـر الـوجـبـة مـطـلـوب")]
         [Display(Name = "سـعـر الـوجـبـة")]
         [DisplayFormat(DataFormatString = "{0:N} شـيـكـل", ApplyFormatInEditMode =false)]
+        [Range(1,500,ErrorMessage ="السعر يجب ان يكون 1-500 شيكل")]
         public double mealPrice { get; set; }
 
 

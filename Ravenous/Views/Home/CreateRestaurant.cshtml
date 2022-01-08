@@ -4,17 +4,30 @@
     ViewBag.Title = "إنشاء مطعم جديد";
 }
 
+<link href="~/Content/CheckBox.css" rel="stylesheet" />
 <link href="~/Content/ImagePreview.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
-<h2 style="color:black;font-weight:bold;">إنشاء مطعم جديد</h2>
+<style>
+    .input-group {
+        direction: ltr;
+    }
+    .input-group-addon, .input-group-btn {
+        width: auto;
+    }
+    .input-group .form-control {
+        direction: rtl;
+        width: 100%;
+    }
 
+</style>
 
 @using (Html.BeginForm("CreateRestaurant", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal jumbotron">
-        <h4 style="color:black;font-weight:600;">إنشاء مطعم</h4>
+        <h4 style="color:black;font-weight:600;">إنشاء مطعم جديد</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -71,64 +84,78 @@
             @Html.LabelFor(model => model.isAvailableForOccasion, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.isAvailableForOccasion)
+
+                    <input value="@{if (Model != null){ @Model.isAvailableForOccasion } }" name="isAvailableForOccasion" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
+                    <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb5"></label>
+
                     @Html.ValidationMessageFor(model => model.isAvailableForOccasion, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-
         </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.isAvailableForKids, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.isAvailableForKids)
+
+                    <input value="@{if (Model != null){ @Model.isAvailableForKids } }" name="isAvailableForKids" class="col-md-9 tgl tgl-flip" id="cb6" type="checkbox" onclick="myFunction('cb6');" />
+                    <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb6"></label>
+
                     @Html.ValidationMessageFor(model => model.isAvailableForKids, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.startTime, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.DropDownList("startTime", null, "---الرجاء تحديد الوقت---", htmlAttributes: new { @class = "form-control" })
+            <div class="form-group col-md-9">
+                <div class="input-group date" id="timePicker">
+                    @*<input type="text" class="form-control timePicker">*@
+                    @Html.EditorFor(model => model.startTime, new { htmlAttributes = new { @class = "form-control timePicker" } })
+                    <span class="input-group-addon">
+                        <i class="far fa-clock" aria-hidden="true"></i>
+                    </span>
+                </div>
                 @Html.ValidationMessageFor(model => model.startTime, "", new { @class = "text-danger" })
             </div>
-
-
         </div>
+
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.endTime, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.DropDownList("endTime", null, "---الرجاء تحديد الوقت---", htmlAttributes: new { @class = "form-control" })
+            <div class="form-group col-md-9">
+                <div class="input-group date" id="timePicker2">
+                    @*<input type="text" class="form-control timePicker">*@
+                    @Html.EditorFor(model => model.endTime, new { htmlAttributes = new { @class = "form-control timePicker2" } })
+                    <span class="input-group-addon">
+                        <i class="far fa-clock" aria-hidden="true"></i>
+                    </span>
+                </div>
                 @Html.ValidationMessageFor(model => model.endTime, "", new { @class = "text-danger" })
             </div>
-
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-3",@style="margin-top:80px;" })
+            @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-top:80px;" })
             <div class="col-md-9">
-                @*@Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })*@
-                
+                @* @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control" } })*@
+
                 <div class="avatar-upload">
                     <div class="avatar-edit">
-                        <input type='file' id="imageUpload" name="imgFile" accept=".png, .jpg, .jpeg" required />
+                        <input type='file' id="imageUpload" name="imgFile" accept=".png, .jpg, .jpeg" />
                         <label for="imageUpload">
-                            <img src="~/Content/images/pencil.png" height="20" style="margin:6px;"/>
+                            <img src="~/Content/images/pencil.png" height="20" style="margin:6px;" />
                         </label>
                     </div>
-                    
+
                     <div class="avatar-preview">
                         <div id="imagePreview" style="background-image: url(https://cdn-icons-png.flaticon.com/512/2533/2533563.png); ">
                         </div>
                     </div>
                 </div>
+                @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -148,7 +175,7 @@
 
 <div>
     <a href="/Home/Index" class="btn btn-warning">
-        <span>خــلــف</span> 
+        <span>خــلــف</span>
         <i class="far fa-hand-point-left"></i>
     </a>
 </div>
@@ -156,15 +183,114 @@
 
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+
+
+
+
 <script>
-    function readURL(input)
-    {
-        if (input.files && input.files[0])
-        {
+    function myFunction(id) {
+        //Get the checkbox
+        var checkBox = document.getElementById(id);
+
+        // If the checkbox is checked
+        if (checkBox.checked == true)
+            checkBox.value = true;
+        else
+            checkBox.value = false;
+    }
+
+
+
+    var checkBox2 = document.getElementById("cb5");
+
+    if (checkBox2.value == "True" || checkBox2.value == "true")
+        $("#cb5").prop("checked", true);
+    else
+        $("#cb5").prop("checked", false);
+
+
+
+
+    var checkBox3 = document.getElementById("cb6");
+
+    if (checkBox3.value == "True" || checkBox3.value == "true")
+        $("#cb6").prop("checked", true);
+    else
+        $("#cb6").prop("checked", false);
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    var firstOpen = true;
+    var time;
+
+    $('#timePicker').datetimepicker({
+        useCurrent: false,
+        format: "hh:mm A"
+    }).on('dp.show', function () {
+        if (firstOpen) {
+            time = moment().startOf('day');
+            firstOpen = false;
+        } else {
+            time = "01:00 PM"
+        }
+
+        $(this).data('DateTimePicker').date(time);
+    });
+
+
+
+
+    var firstOpen2 = true;
+    var time2;
+
+    $('#timePicker2').datetimepicker({
+        useCurrent: false,
+        format: "hh:mm A"
+    }).on('dp.show', function () {
+        if (firstOpen2) {
+            time2 = moment().startOf('day');
+            firstOpen2 = false;
+        } else {
+            time2 = "01:00 PM"
+        }
+
+        $(this).data('DateTimePicker').date(time2);
+    });
+
+
+
+
+
+
+
+
+
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
             var reader = new FileReader();
-            reader.onload = function (e)
-            {
-                $("#imagePreview").css( "background-image",  "url(" + e.target.result + ")" );
+            reader.onload = function (e) {
+                $("#imagePreview").css("background-image", "url(" + e.target.result + ")");
                 $("#imagePreview").hide();
                 $("#imagePreview").fadeIn(650);
             };
