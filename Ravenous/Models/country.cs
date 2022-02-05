@@ -12,16 +12,16 @@ namespace Ravenous.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class city
+    public partial class country
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public city()
+        public country()
         {
             this.ownerRestaurants = new HashSet<ownerRestaurant>();
         }
     
         public int Id { get; set; }
-        public string cityName { get; set; }
+        public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ownerRestaurant> ownerRestaurants { get; set; }

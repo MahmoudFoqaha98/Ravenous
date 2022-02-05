@@ -5,12 +5,12 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="ravenousDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="cities">
+        <EntityType Name="countries">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="cityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="login">
           <Key>
@@ -49,7 +49,7 @@
           <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="restaurantName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="restaurantPhone" Type="nvarchar" MaxLength="15" Nullable="false" />
-          <Property Name="city" Type="int" Nullable="false" />
+          <Property Name="country" Type="int" Nullable="false" />
           <Property Name="location" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="isAvailableForOccasion" Type="bit" Nullable="false" />
           <Property Name="isAvailableForKids" Type="bit" Nullable="false" />
@@ -93,15 +93,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ownerRestaurant_ToCities">
-          <End Role="cities" Type="Self.cities" Multiplicity="1" />
+        <Association Name="FK_ownerRestaurant_ToCountries">
+          <End Role="countries" Type="Self.countries" Multiplicity="1" />
           <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="cities">
+            <Principal Role="countries">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ownerRestaurant">
-              <PropertyRef Name="city" />
+              <PropertyRef Name="country" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -118,7 +118,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ravenousDBModelStoreContainer">
-          <EntitySet Name="cities" EntityType="Self.cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="countries" EntityType="Self.countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mealCategories" EntityType="Self.mealCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="meals" EntityType="Self.meals" Schema="dbo" store:Type="Tables" />
@@ -132,8 +132,8 @@
             <End Role="ownerRestaurant" EntitySet="ownerRestaurant" />
             <End Role="meals" EntitySet="meals" />
           </AssociationSet>
-          <AssociationSet Name="FK_ownerRestaurant_ToCities" Association="Self.FK_ownerRestaurant_ToCities">
-            <End Role="cities" EntitySet="cities" />
+          <AssociationSet Name="FK_ownerRestaurant_ToCountries" Association="Self.FK_ownerRestaurant_ToCountries">
+            <End Role="countries" EntitySet="countries" />
             <End Role="ownerRestaurant" EntitySet="ownerRestaurant" />
           </AssociationSet>
           <AssociationSet Name="FK_Tables_ToOwnerRestaurant" Association="Self.FK_Tables_ToOwnerRestaurant">
@@ -146,13 +146,13 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ravenousDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="city">
+        <EntityType Name="country">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="cityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ownerRestaurants" Relationship="Self.FK_ownerRestaurant_ToCities" FromRole="cities" ToRole="ownerRestaurant" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ownerRestaurants" Relationship="Self.FK_ownerRestaurant_ToCountries" FromRole="countries" ToRole="ownerRestaurant" />
         </EntityType>
         <EntityType Name="login">
           <Key>
@@ -194,7 +194,7 @@
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="restaurantName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="restaurantPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="city" Type="Int32" Nullable="false" />
+          <Property Name="country" Type="Int32" Nullable="false" />
           <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="isAvailableForOccasion" Type="Boolean" Nullable="false" />
           <Property Name="isAvailableForKids" Type="Boolean" Nullable="false" />
@@ -202,7 +202,7 @@
           <Property Name="endTime" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="isApproved" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="city1" Relationship="Self.FK_ownerRestaurant_ToCities" FromRole="ownerRestaurant" ToRole="cities" />
+          <NavigationProperty Name="country1" Relationship="Self.FK_ownerRestaurant_ToCountries" FromRole="ownerRestaurant" ToRole="countries" />
           <NavigationProperty Name="meals" Relationship="Self.FK_meals_ToOwnerRestaurant" FromRole="ownerRestaurant" ToRole="meals" />
           <NavigationProperty Name="Tables" Relationship="Self.FK_Tables_ToOwnerRestaurant" FromRole="ownerRestaurant" ToRole="Tables" />
         </EntityType>
@@ -218,15 +218,15 @@
           <Property Name="isReserved" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ownerRestaurant" Relationship="Self.FK_Tables_ToOwnerRestaurant" FromRole="Tables" ToRole="ownerRestaurant" />
         </EntityType>
-        <Association Name="FK_ownerRestaurant_ToCities">
-          <End Role="cities" Type="Self.city" Multiplicity="1" />
+        <Association Name="FK_ownerRestaurant_ToCountries">
+          <End Role="countries" Type="Self.country" Multiplicity="1" />
           <End Role="ownerRestaurant" Type="Self.ownerRestaurant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="cities">
+            <Principal Role="countries">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ownerRestaurant">
-              <PropertyRef Name="city" />
+              <PropertyRef Name="country" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -267,14 +267,14 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ravenousDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="cities" EntityType="Self.city" />
+          <EntitySet Name="countries" EntityType="Self.country" />
           <EntitySet Name="logins" EntityType="Self.login" />
           <EntitySet Name="mealCategories" EntityType="Self.mealCategory" />
           <EntitySet Name="meals" EntityType="Self.meal" />
           <EntitySet Name="ownerRestaurants" EntityType="Self.ownerRestaurant" />
           <EntitySet Name="Tables" EntityType="Self.Table" />
-          <AssociationSet Name="FK_ownerRestaurant_ToCities" Association="Self.FK_ownerRestaurant_ToCities">
-            <End Role="cities" EntitySet="cities" />
+          <AssociationSet Name="FK_ownerRestaurant_ToCountries" Association="Self.FK_ownerRestaurant_ToCountries">
+            <End Role="countries" EntitySet="countries" />
             <End Role="ownerRestaurant" EntitySet="ownerRestaurants" />
           </AssociationSet>
           <AssociationSet Name="FK_meals_ToMealCategories" Association="Self.FK_meals_ToMealCategories">
@@ -296,11 +296,11 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ravenousDBModelStoreContainer" CdmEntityContainer="ravenousDBEntities">
-          <EntitySetMapping Name="cities">
-            <EntityTypeMapping TypeName="ravenousDBModel.city">
-              <MappingFragment StoreEntitySet="cities">
+          <EntitySetMapping Name="countries">
+            <EntityTypeMapping TypeName="ravenousDBModel.country">
+              <MappingFragment StoreEntitySet="countries">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="cityName" ColumnName="cityName" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -342,7 +342,7 @@
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="restaurantName" ColumnName="restaurantName" />
                 <ScalarProperty Name="restaurantPhone" ColumnName="restaurantPhone" />
-                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="country" ColumnName="country" />
                 <ScalarProperty Name="location" ColumnName="location" />
                 <ScalarProperty Name="isAvailableForOccasion" ColumnName="isAvailableForOccasion" />
                 <ScalarProperty Name="isAvailableForKids" ColumnName="isAvailableForKids" />

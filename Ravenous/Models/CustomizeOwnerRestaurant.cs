@@ -45,7 +45,7 @@ namespace Ravenous.Models
 
 
 
-        [RegularExpression(@"^0(59[987542]|56[982]|42)\d{6}$", ErrorMessage ="* الرجاء ادخال رقم هاتف صالح")]
+        [RegularExpression(@"^0(59[9875432]|56[9872]|42|22)\d{6}$", ErrorMessage ="* الرجاء ادخال رقم هاتف صالح")]
         [Required(ErrorMessage = "* رقم الهاتف مطلوب")]
         [Display(Name = "رقم الهاتف")]
         public string restaurantPhone { get; set; }
@@ -53,13 +53,9 @@ namespace Ravenous.Models
 
 
 
-
-
-
-
-        [Required(ErrorMessage = "* المدينة مطلوبة")]
-        [Display(Name = "المدينة")]
-        public int city { get; set; }
+        [Required(ErrorMessage = "* الدولة مطلوبة")]
+        [Display(Name = "الدولة")]
+        public int country { get; set; }
 
 
 
@@ -133,8 +129,9 @@ namespace Ravenous.Models
 
 
       
-        public virtual city city1 { get; set; }
+       
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual country country1 { get; set; }
         public virtual ICollection<meal> meals { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Table> Tables { get; set; }

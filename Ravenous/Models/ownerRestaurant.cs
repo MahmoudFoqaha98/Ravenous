@@ -25,7 +25,7 @@ namespace Ravenous.Models
         public string email { get; set; }
         public string restaurantName { get; set; }
         public string restaurantPhone { get; set; }
-        public int city { get; set; }
+        public int country { get; set; }
         public string location { get; set; }
         public bool isAvailableForOccasion { get; set; }
         public bool isAvailableForKids { get; set; }
@@ -34,7 +34,7 @@ namespace Ravenous.Models
         public string image { get; set; }
         public bool isApproved { get; set; }
     
-        public virtual city city1 { get; set; }
+        public virtual country country1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<meal> meals { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -8,6 +8,7 @@ using Ravenous.Models;
 using System.IO;
 using System.Data.Entity;
 using System.Net;
+using System.Data.SqlClient;
 
 namespace Ravenous.Controllers
 {
@@ -46,8 +47,8 @@ namespace Ravenous.Controllers
 
         // GET: Create Restaurant
         public ActionResult CreateRestaurant()
-        {
-            ViewBag.city = new SelectList(db.cities, "Id", "cityName");
+        {            
+            ViewBag.country = new SelectList(db.countries, "Id", "name");
             return View();
         }
 
@@ -55,16 +56,17 @@ namespace Ravenous.Controllers
         // POST: Create Restaurant
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateRestaurant([Bind(Include = "Id,email,restaurantName,restaurantPhone,city,location,isAvailableForOccasion,isAvailableForKids,startTime,endTime,isApproved")] ownerRestaurant ownerRestaurant, HttpPostedFileBase imgFile)
+        public ActionResult CreateRestaurant([Bind(Include = "Id,email,restaurantName,restaurantPhone,country,location,isAvailableForOccasion,isAvailableForKids,startTime,endTime,isApproved")] ownerRestaurant ownerRestaurant, HttpPostedFileBase imgFile)
         {
+            Session.Clear();
             if (ModelState.IsValid)
             {
                 if (imgFile == null)
                 {
                     ModelState.AddModelError("image", "* صـورة الـمـطـعـم مطلوبة");
                     
-                    ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
-
+                    
+                    ViewBag.country = new SelectList(db.countries, "Id", "name", ownerRestaurant.country);
                     return View(ownerRestaurant);
                 }
 
@@ -79,28 +81,84 @@ namespace Ravenous.Controllers
 
                 ownerRestaurant.image = path;
 
+                //db.ownerRestaurants.Add(ownerRestaurant);
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
+
+                Session["GeneratedRandomNumber"] = generateRandomNumber();
+                Session["ownerRestaurant"] = ownerRestaurant;
+                
+                return RedirectToAction("CreateRestaurant");
+            }
+            ViewBag.country = new SelectList(db.countries, "Id", "name", ownerRestaurant.country);
+            return View(ownerRestaurant);
+        }
+
+        [HttpPost]
+        public ActionResult AddRestaurant(string confirmationNumber)
+        {
+            ownerRestaurant ownerRestaurant = ((ownerRestaurant)Session["ownerRestaurant"]);
+
+            if (String.IsNullOrEmpty( confirmationNumber ) )
+            {
+                Session["Error"] = "كـود الـتأكـيـد خـاطـئ";
+
+                return RedirectToAction("CreateRestaurant");
+            }
+
+            int parsedConfirmationNumber = 0;
+            bool res = int.TryParse( confirmationNumber, out parsedConfirmationNumber);
+
+            if (res == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            if (parsedConfirmationNumber == int.Parse(Session["GeneratedRandomNumber"].ToString()))
+            {
                 db.ownerRestaurants.Add(ownerRestaurant);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
 
-
-
-            return View(ownerRestaurant);
+            Session["Error"] = "كـود الـتأكـيـد خـاطـئ";
+            
+            return RedirectToAction("CreateRestaurant");
         }
+
+
+        // function that return random number from 6 digits , Don't worry lady
+        private int generateRandomNumber()
+        {
+            //152478
+            Random random = new Random();
+            int[] numbers = new int[] { random.Next(1, 9), random.Next(1, 9), random.Next(1, 9),
+                                        random.Next(1, 9), random.Next(1, 9), random.Next(1, 9)};
+            int number = 0;
+            int m = 1;
+            foreach(int n in numbers)
+            {
+                number += n * m;
+                m *= 10;
+            }
+            return number;
+        }
+
+
+
+
         // GET: All Restaurants
         public ActionResult AllRestaurants()
         {
-            List<ownerRestaurant> ownerRestaurants = db.ownerRestaurants.Where(o => o.isApproved == true).ToList();
+            List<ownerRestaurant> ownerRestaurants = db.ownerRestaurants.Where(o => o.isApproved == true)
+                                                 .Include(o => o.country1).ToList();
             return View(ownerRestaurants);
         }
 
         // GET: Admin Approve
         public ActionResult AdminApprove()
         {
-            List<ownerRestaurant> ownerRestaurants = db.ownerRestaurants.OrderBy(o => o.isApproved).ToList();
+            List<ownerRestaurant> ownerRestaurants = db.ownerRestaurants
+                                            .Include(o => o.country1).OrderBy(o => o.isApproved).ToList();
             return View(ownerRestaurants);
         }
 
@@ -134,7 +192,7 @@ namespace Ravenous.Controllers
                 db.SaveChanges();
                 return RedirectToAction("AdminApprove");
             }
-            ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
+            ViewBag.country = new SelectList(db.countries, "Id", "Name", ownerRestaurant.country);
             return RedirectToAction("AdminApprove");
         }
 
@@ -155,6 +213,7 @@ namespace Ravenous.Controllers
             var meals = db.meals.Include(m => m.mealCategory)
                                 .Include(m => m.ownerRestaurant)
                                 .Where(a => a.restaurantId == restaurantId && a.available == true);
+
             return View(meals.ToList());
         }
 
@@ -200,8 +259,7 @@ namespace Ravenous.Controllers
             {
                 return HttpNotFound();
             }
-
-            ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
+            ViewBag.country = new SelectList(db.countries, "Id", "name", ownerRestaurant.country);
             Session["image"] = ownerRestaurant.image;
             return View(ownerRestaurant);
         }
@@ -209,7 +267,7 @@ namespace Ravenous.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditRestaurant([Bind(Include = "email,restaurantName,restaurantPhone,city,location,isAvailableForOccasion,isAvailableForKids,startTime,endTime")] ownerRestaurant ownerRestaurant, HttpPostedFileBase imgFile)
+        public ActionResult EditRestaurant([Bind(Include = "email,restaurantName,restaurantPhone,country,location,isAvailableForOccasion,isAvailableForKids,startTime,endTime")] ownerRestaurant ownerRestaurant, HttpPostedFileBase imgFile)
         {
             if (imgFile == null)
                 ownerRestaurant.image = Session["image"].ToString();
@@ -235,7 +293,7 @@ namespace Ravenous.Controllers
                 db.SaveChanges();
                 return RedirectToAction("RestaurantDetails");
             }
-            ViewBag.city = new SelectList(db.cities, "Id", "cityName", ownerRestaurant.city);
+            ViewBag.country = new SelectList(db.countries, "Id", "name", ownerRestaurant.country);
             return View(ownerRestaurant);
         }
 

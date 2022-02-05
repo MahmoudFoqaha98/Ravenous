@@ -20,13 +20,18 @@
                 </div>
                 <div class="caption">
                     <h3>@item.restaurantName</h3>
-                    <p><img src="~/Content/images/email.png" height="20" /> @item.email</p>
-                    <p><img src="~/Content/images/smartphone.png" height="20"/> @item.restaurantPhone</p>
                     <p>
-                        <img src="~/Content/images/clock.png" height="20" /> 
+                        <img src="~/Content/images/location.png" height="25" /> 
+                        @item.country1.name ، 
+                        @item.location
+                    </p>
+                    <p><img src="~/Content/images/email.png" height="20" /> @item.email</p>
+                    <p><img src="~/Content/images/smartphone.png" height="20" /> @item.restaurantPhone</p>
+                    <p>
+                        <img src="~/Content/images/clock.png" height="20" />
                         <span>أوقـات الـدوام&nbsp; </span>
-                        <span >@item.startTime</span> 
-                            
+                        <span>@item.startTime</span>
+
                         <span style="float:left;">@item.endTime</span>
                     </p>
                     <p></p>

@@ -25,7 +25,7 @@ namespace Ravenous.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<city> cities { get; set; }
+        public virtual DbSet<country> countries { get; set; }
         public virtual DbSet<login> logins { get; set; }
         public virtual DbSet<mealCategory> mealCategories { get; set; }
         public virtual DbSet<meal> meals { get; set; }

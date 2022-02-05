@@ -22,155 +22,187 @@
 
 </style>
 
+
+
+@if(Session["GeneratedRandomNumber"] != null)
+{
+    using (Html.BeginForm("AddRestaurant", "Home", FormMethod.Post))
+    {
+        <div class="form-horizontal jumbotron">
+            <div class="form-group">
+                <label class="control-label col-md-3">الـكـود الـخـاص بـك</label>
+                <div class="col-md-9">
+                    <input type="number" readonly value="@Session["GeneratedRandomNumber"]" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">تـأكـيـد الـكـود</label>
+                <div class="col-md-9">
+                    <input name="confirmationNumber" type="number" class="form-control" />
+                    <label class="text-danger">@Session["Error"]</label>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-md-offset-2 col-md-3">
+                    <button type="submit" class="btn btn-success">
+                        تـأكـيـد
+                        <i class="fas fa-check"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+
 @using (Html.BeginForm("CreateRestaurant", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal jumbotron">
-        <h4 style="color:black;font-weight:600;">إنشاء مطعم جديد</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-            </div>
-
-
+<div class="form-horizontal jumbotron">
+    <h4 style="color:black;font-weight:600;">إنشاء مطعم جديد</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.restaurantName, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.restaurantName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.restaurantName, "", new { @class = "text-danger" })
-            </div>
-
-
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.restaurantPhone, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.restaurantPhone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.restaurantPhone, "", new { @class = "text-danger" })
-            </div>
-
-
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.city, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.DropDownList("city", null, "---الرجاء اختيار المدينة---", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
-            </div>
-
-
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.location, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
-            </div>
-
-
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.isAvailableForOccasion, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                <div class="checkbox">
-
-                    <input value="@{if (Model != null){ @Model.isAvailableForOccasion } }" name="isAvailableForOccasion" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
-                    <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb5"></label>
-
-                    @Html.ValidationMessageFor(model => model.isAvailableForOccasion, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.restaurantName, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.restaurantName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.restaurantName, "", new { @class = "text-danger" })
         </div>
 
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.isAvailableForKids, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                <div class="checkbox">
+    </div>
 
-                    <input value="@{if (Model != null){ @Model.isAvailableForKids } }" name="isAvailableForKids" class="col-md-9 tgl tgl-flip" id="cb6" type="checkbox" onclick="myFunction('cb6');" />
-                    <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb6"></label>
-
-                    @Html.ValidationMessageFor(model => model.isAvailableForKids, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.startTime, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="form-group col-md-9">
-                <div class="input-group date" id="timePicker">
-                    @*<input type="text" class="form-control timePicker">*@
-                    @Html.EditorFor(model => model.startTime, new { htmlAttributes = new { @class = "form-control timePicker" } })
-                    <span class="input-group-addon">
-                        <i class="far fa-clock" aria-hidden="true"></i>
-                    </span>
-                </div>
-                @Html.ValidationMessageFor(model => model.startTime, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.restaurantPhone, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.restaurantPhone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.restaurantPhone, "", new { @class = "text-danger" })
         </div>
 
 
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.endTime, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="form-group col-md-9">
-                <div class="input-group date" id="timePicker2">
-                    @*<input type="text" class="form-control timePicker">*@
-                    @Html.EditorFor(model => model.endTime, new { htmlAttributes = new { @class = "form-control timePicker2" } })
-                    <span class="input-group-addon">
-                        <i class="far fa-clock" aria-hidden="true"></i>
-                    </span>
-                </div>
-                @Html.ValidationMessageFor(model => model.endTime, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.country, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownList("country", null, "---الرجاء اختيار الدولة---", htmlAttributes: new { @class = "form-control" })
+
+            @Html.ValidationMessageFor(model => model.country, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-top:80px;" })
-            <div class="col-md-9">
-                @* @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control" } })*@
-
-                <div class="avatar-upload">
-                    <div class="avatar-edit">
-                        <input type='file' id="imageUpload" name="imgFile" accept=".png, .jpg, .jpeg" />
-                        <label for="imageUpload">
-                            <img src="~/Content/images/pencil.png" height="20" style="margin:6px;" />
-                        </label>
-                    </div>
-
-                    <div class="avatar-preview">
-                        <div id="imagePreview" style="background-image: url(https://cdn-icons-png.flaticon.com/512/2533/2533563.png); ">
-                        </div>
-                    </div>
-                </div>
-                @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.location, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
         </div>
 
 
+    </div>
 
-        <div class="form-group">
+    <div class="form-group">
+        @Html.LabelFor(model => model.isAvailableForOccasion, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <div class="checkbox">
 
-            <div class="col-md-offset-2 col-md-3">
-                <button type="submit" class="btn btn-primary">
-                    إنــشــاء
-                    <i class="far fa-save"></i>
-                </button>
+                <input value="@{if (Model != null){ @Model.isAvailableForOccasion } }" name="isAvailableForOccasion" class="col-md-9 tgl tgl-flip" id="cb5" type="checkbox" onclick="myFunction('cb5');" />
+                <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb5"></label>
+
+                @Html.ValidationMessageFor(model => model.isAvailableForOccasion, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.isAvailableForKids, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            <div class="checkbox">
+
+                <input value="@{if (Model != null){ @Model.isAvailableForKids } }" name="isAvailableForKids" class="col-md-9 tgl tgl-flip" id="cb6" type="checkbox" onclick="myFunction('cb6');" />
+                <label class="tgl-btn" data-tg-off="غير متاح" data-tg-on="متاح" for="cb6"></label>
+
+                @Html.ValidationMessageFor(model => model.isAvailableForKids, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.startTime, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="form-group col-md-9">
+            <div class="input-group date" id="timePicker">
+                @*<input type="text" class="form-control timePicker">*@
+                @Html.EditorFor(model => model.startTime, new { htmlAttributes = new { @class = "form-control timePicker" } })
+                <span class="input-group-addon">
+                    <i class="far fa-clock" aria-hidden="true"></i>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.startTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.endTime, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="form-group col-md-9">
+            <div class="input-group date" id="timePicker2">
+                @*<input type="text" class="form-control timePicker">*@
+                @Html.EditorFor(model => model.endTime, new { htmlAttributes = new { @class = "form-control timePicker2" } })
+                <span class="input-group-addon">
+                    <i class="far fa-clock" aria-hidden="true"></i>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.endTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-top:80px;" })
+        <div class="col-md-9">
+            @* @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control" } })*@
+
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+                    <input type='file' id="imageUpload" name="imgFile" accept=".png, .jpg, .jpeg" />
+                    <label for="imageUpload">
+                        <img src="~/Content/images/pencil.png" height="20" style="margin:6px;" />
+                    </label>
+                </div>
+
+                <div class="avatar-preview">
+                    <div id="imagePreview" style="background-image: url(https://cdn-icons-png.flaticon.com/512/2533/2533563.png); ">
+                    </div>
+                </div>
+            </div>
+            @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+
+        <div class="col-md-offset-2 col-md-3">
+            <button type="submit" class="btn btn-primary">
+                إنــشــاء
+                <i class="far fa-save"></i>
+            </button>
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -181,12 +213,34 @@
 </div>
 
 
-
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+
+
+
+
+<script>
+
+  /*  var options = document.getElementById('cities').options;
+    for (let i = 0; i < options.length; i++) {
+        options[i].style.display = 'none';
+    }*/
+
+    function show() {
+        //var s = document.getElementsByName('country')[0];
+        //var countryId = s.options[s.selectedIndex].value;
+
+       // $.post("/Home/Fill_cities", { countryId: countryId });
+       // $.get("/Home/CreateRestaurant");
+    }
+</script>
+
+
+
+
 
 
 
@@ -224,6 +278,8 @@
 
 
 </script>
+
+
 
 
 

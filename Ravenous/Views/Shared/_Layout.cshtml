@@ -12,6 +12,7 @@
     <link href="~/Content/footer.css" rel="stylesheet" />
 </head>
 <body dir="rtl">
+    <!-- HEADER START -->
     <div class="navbar navbar-inverse navbar-fixed-top" style="background:#202040 !important">
         <div class="container-fluid" style="padding-top:10px;padding-bottom:5px;">
             <div class="navbar-header navbar-right">
@@ -29,18 +30,18 @@
                 </a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right" >
+                <ul class="nav navbar-nav navbar-right">
 
                     <li class="navLinks">
                         <a href="@Url.Action("About","Home")">
-                            <img src="~/Content/images/about.png" height="30" /> 
+                            <img src="~/Content/images/about.png" height="30" />
                             <span>عـنـا</span>
                         </a>
                     </li>
                     <li class="navLinks">
-                        
+
                         <a href="@Url.Action("AllRestaurants","Home")">
-                            <img src="~/Content/images/restaurant_nav.png" height="30" /> 
+                            <img src="~/Content/images/restaurant_nav.png" height="30" />
                             <span>الـمـطـاعـم</span>
                         </a>
                     </li>
@@ -61,15 +62,15 @@
                                 <ul class="dropdown-menu">
 
                                     <li>
-                                       
+
                                         <a href="@Url.Action("RestaurantDetails","Home")" class="row">
                                             <span>الـمـلـف الـشـخـصـي</span>
                                             <img src="~/Content/images/profile.png" height="20" style="float: left;" />
                                         </a>
                                     </li>
-                                    
+
                                     <li role="separator" class="divider"></li>
-                                   
+
                                     <li>
                                         <a href="@Url.Action("Logout","Home")" class="row">
                                             <span>تـسـجـيـل خـروج</span>
@@ -84,16 +85,16 @@
                         {
                             <li class="navLinks">
                                 <a href="@Url.Action("RestaurantPage","Home")">
-                                    <img src="~/Content/images/login.png" height="30" /> 
+                                    <img src="~/Content/images/login.png" height="30" />
                                     <span>تـسـجـيـل دخـول</span>
                                 </a>
                             </li>
                         }
                     }
                     <li class="navLinks">
-                        
+
                         <a href="@Url.Action("CreateRestaurant","Home")">
-                            <img src="~/Content/images/add-restaurant.png" height="30" /> 
+                            <img src="~/Content/images/add-restaurant.png" height="30" />
                             <span>إنـشـاء مـطـعـم</span>
                         </a>
                     </li>
@@ -102,7 +103,11 @@
             </div>
         </div>
     </div>
+    <!-- END OF HEADER -->
+    
+
     <div class="container-fluid body-content" style="margin-top: 35px;">
+        
         @RenderBody()
 
         <!-- FOOTER START -->
@@ -117,8 +122,8 @@
                         <li>لمسات الختام</li>
                     </ul>
                 </div>
-               
-                
+
+
                 <div class="col">
                     <h1>الدعم</h1>
                     <ul>
